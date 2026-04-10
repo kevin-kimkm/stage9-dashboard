@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAGE9 영업 현황</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-base: #09090b;
+    --bg-raised: #111113;
+    --bg-surface: #18181b;
+    --bg-overlay: #1f1f23;
+    --border-subtle: rgba(255,255,255,.06);
+    --border-default: rgba(255,255,255,.09);
+    --border-strong: rgba(255,255,255,.14);
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-tertiary: #71717a;
+    --text-quaternary: #52525b;
+    --brand: #FF5A00;
+    --brand-soft: rgba(255,90,0,.10);
+    --brand-mid: rgba(255,90,0,.25);
+    --accent: #7c3aed;
+    --accent-soft: rgba(124,58,237,.12);
+    --green: #10b981;
+    --green-soft: rgba(16,185,129,.12);
+    --red: #f43f5e;
+    --red-soft: rgba(244,63,94,.12);
+    --blue: #3b82f6;
+    --blue-soft: rgba(59,130,246,.12);
+    --amber: #f59e0b;
+    --amber-soft: rgba(245,158,11,.12);
+    --pink: #ec4899;
+    --cyan: #06b6d4;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.3), 0 0 0 1px var(--border-subtle);
+    --transition: 150ms cubic-bezier(.4,0,.2,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg-base); color:var(--text-primary); min-height:100vh; -webkit-font-smoothing:antialiased; }
+
+  /* HEADER */
+  .header { padding:0 32px; height:64px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border-subtle); background:var(--bg-raised); position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+  .header-left { display:flex; align-items:center; gap:16px; }
+  .logo { display:flex; align-items:center; gap:0; }
+  .logo-text { font-weight:900; font-size:20px; letter-spacing:-0.5px; color:var(--brand); line-height:1; }
+  .header-divider { width:1px; height:24px; background:var(--border-default); }
+  .header-title { font-size:14px; font-weight:500; color:var(--text-secondary); }
+  .header-right { display:flex; align-items:center; gap:12px; }
+  .month-select { appearance:none; background:var(--bg-surface); border:1px solid var(--border-default); color:var(--text-primary); padding:7px 32px 7px 12px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; font-family:inherit; cursor:pointer; transition:border-color var(--transition); background-image:url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2371717a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; }
+  .month-select:hover { border-color:var(--border-strong); }
+  .month-select:focus { outline:none; border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-soft); }
+  .update-badge { font-size:12px; color:var(--text-tertiary); padding:5px 10px; background:var(--bg-surface); border-radius:20px; border:1px solid var(--border-subtle); }
+
+  /* TABS */
+  .tab-nav { display:flex; gap:2px; padding:12px 32px 0; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle); }
+  .tab-btn { padding:10px 16px; border:none; background:transparent; color:var(--text-tertiary); font-size:13px; font-weight:500; font-family:inherit; cursor:pointer; transition:color var(--transition); position:relative; margin-bottom:-1px; }
+  .tab-btn:hover { color:var(--text-secondary); }
+  .tab-btn.active { color:var(--text-primary); }
+  .tab-btn.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--brand); border-radius:2px 2px 0 0; }
+
+  /* MAIN */
+  .main { padding:24px 32px 48px; max-width:1440px; margin:0 auto; }
+  .tab-content { display:none; animation:fadeIn .25s ease; }
+  .tab-content.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)} }
+
+  /* CARDS */
+  .metric-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+  .metric-card { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:20px; transition:border-color var(--transition),box-shadow var(--transition); }
+  .metric-card:hover { border-color:var(--border-default); box-shadow:var(--shadow-sm); }
+  .metric-label { font-size:12px; font-weight:500; color:var(--text-tertiary); letter-spacing:.02em; margin-bottom:10px; }
+  .metric-value { font-size:30px; font-weight:700; letter-spacing:-1px; line-height:1; margin-bottom:8px; font-variant-numeric:tabular-nums; }
+  .metric-unit { font-size:16px; font-weight:500; color:var(--text-tertiary); margin-left:2px; }
+  .metric-sub { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-tertiary); }
+  .pill { display:inline-flex; align-items:center; gap:3px; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:.01em; }
+  .pill-up { background:var(--green-soft); color:var(--green); }
+  .pill-down { background:var(--red-soft); color:var(--red); }
+  .pill-neutral { background:var(--blue-soft); color:var(--blue); }
+
+  /* PANELS */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+  .grid-full { margin-bottom:12px; }
+  .panel { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:20px; transition:border-color var(--transition); }
+  .panel:hover { border-color:var(--border-default); }
+  .panel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .panel-title { font-size:13px; font-weight:600; color:var(--text-secondary); display:flex; align-items:center; gap:8px; }
+  .panel-dot { width:6px; height:6px; border-radius:50%; }
+
+  /* BRANCH BARS */
+  .branch-item { display:flex; align-items:center; gap:14px; padding:14px 0; }
+  .branch-item + .branch-item { border-top:1px solid var(--border-subtle); }
+  .branch-label { width:88px; font-size:13px; font-weight:600; flex-shrink:0; }
+  .bar-wrap { flex:1; }
+  .bar-track { width:100%; height:6px; background:var(--bg-overlay); border-radius:3px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; transition:width .8s cubic-bezier(.4,0,.2,1); }
+  .bar-meta { display:flex; justify-content:space-between; font-size:11px; color:var(--text-quaternary); margin-top:4px; }
+  .branch-pct { width:64px; text-align:right; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
+
+  /* TABLE */
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; font-variant-numeric:tabular-nums; }
+  .data-table th { text-align:left; padding:10px 14px; font-size:11px; font-weight:600; color:var(--text-quaternary); text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid var(--border-default); }
+  .data-table td { padding:12px 14px; border-bottom:1px solid var(--border-subtle); color:var(--text-secondary); }
+  .data-table tbody tr:last-child td { border-bottom:none; }
+  .data-table tbody tr { transition:background var(--transition); }
+  .data-table tbody tr:hover td { background:rgba(255,255,255,.02); }
+  .data-table .num { text-align:right; }
+  .data-table .row-total td { background:rgba(255,90,0,.04); color:var(--text-primary); font-weight:600; border-bottom:none; }
+
+  /* CHARTS */
+  .chart-wrap { position:relative; width:100%; height:280px; }
+  .chart-wrap-sm { position:relative; width:100%; height:220px; }
+  .chart-wrap-lg { position:relative; width:100%; height:340px; }
+
+  /* RANKINGS */
+  .rank-row { display:flex; align-items:center; gap:12px; padding:14px 0; }
+  .rank-row + .rank-row { border-top:1px solid var(--border-subtle); }
+  .rank-badge { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+  .rb-1 { background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; }
+  .rb-2 { background:linear-gradient(135deg,#a1a1aa,#71717a); color:#fff; }
+  .rb-3 { background:linear-gradient(135deg,#92400e,#78350f); color:#d97706; }
+  .rb-4 { background:var(--bg-overlay); color:var(--text-tertiary); }
+  .rank-info { flex:1; }
+  .rank-name { font-size:13px; font-weight:600; }
+  .rank-sub { font-size:11px; color:var(--text-quaternary); margin-top:2px; }
+  .rank-val { font-size:16px; font-weight:700; font-variant-numeric:tabular-nums; }
+
+  /* BRANCH TABS */
+  .branch-tabs { display:flex; gap:6px; margin-bottom:20px; background:var(--bg-raised); padding:4px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); width:fit-content; }
+  .branch-tab { padding:7px 16px; background:transparent; border:none; color:var(--text-tertiary); border-radius:6px; cursor:pointer; font-size:13px; font-weight:500; font-family:inherit; transition:all var(--transition); }
+  .branch-tab:hover { color:var(--text-secondary); background:var(--bg-overlay); }
+  .branch-tab.active { background:var(--bg-surface); color:var(--text-primary); box-shadow:0 1px 3px rgba(0,0,0,.3),0 0 0 1px var(--border-subtle); }
+
+  /* FUNNEL */
+  .funnel-item { display:flex; align-items:center; gap:16px; padding:16px; border-radius:var(--radius-sm); margin-bottom:6px; }
+  .funnel-item:nth-child(1) { background:var(--brand-soft); border-left:3px solid var(--brand); }
+  .funnel-item:nth-child(2) { background:var(--blue-soft); border-left:3px solid var(--blue); }
+  .funnel-item:nth-child(3) { background:var(--green-soft); border-left:3px solid var(--green); }
+  .funnel-val { font-size:26px; font-weight:700; width:56px; letter-spacing:-1px; }
+  .funnel-label { font-size:13px; color:var(--text-secondary); }
+  .funnel-rate { font-size:11px; color:var(--text-tertiary); margin-top:2px; }
+
+  .section-label { font-size:11px; font-weight:600; color:var(--text-quaternary); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; margin-top:12px; }
+
+  @media (max-width:1100px) { .metric-grid{grid-template-columns:repeat(2,1fr);} .grid-2{grid-template-columns:1fr;} }
+  @media (max-width:640px) { .metric-grid{grid-template-columns:1fr;} .main{padding:16px;} .header{padding:0 16px;} .tab-nav{padding:12px 16px 0;} .branch-tabs{width:100%;} .branch-tab{flex:1;text-align:center;} }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo" style="width:34px;height:34px;background:#FF5A00;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <span style="color:#fff;font-family:Impact,'Arial Narrow Bold','Arial Black',sans-serif;font-weight:900;font-size:9px;letter-spacing:.3px;line-height:1">STAGE9</span>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-title">전 지점 영업 현황</div>
+  </div>
+  <div class="header-right">
+    <select id="yearMonth" class="month-select">
+      <option value="2026-03">2026년 3월</option>
+      <option value="2026-02">2026년 2월</option>
+      <option value="2026-01">2026년 1월</option>
+    </select>
+    <div class="update-badge">업데이트 2026.04.06</div>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" data-tab="overview">전 지점</button>
+  <button class="tab-btn" data-tab="detail">지점별</button>
+  <button class="tab-btn" data-tab="compare">비교</button>
+</div>
+
+<div class="main">
+  <!-- TAB 1: 총괄 -->
+  <div id="overview" class="tab-content active">
+    <div class="metric-grid" id="overviewCards"></div>
+    <div class="grid-2">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--brand)"></span>지점별 달성률</div></div><div id="branchBars"></div></div>
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--green)"></span>상품별 매출 비중</div></div><div class="chart-wrap"><canvas id="productPieChart"></canvas></div></div>
+    </div>
+    <!-- 상세 현황 먼저 -->
+    <div class="grid-full">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--amber)"></span>상세 현황</div></div><div id="detailTable"></div></div>
+    </div>
+    <!-- 2026 월별 추이 (2개 차트) -->
+    <div class="grid-2">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--accent)"></span>오피스 · 비상주 매출 추이</div></div><div class="chart-wrap"><canvas id="trendChart1"></canvas></div></div>
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--amber)"></span>다이브나인 · 대관 매출 추이</div></div><div class="chart-wrap"><canvas id="trendChart2"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: 지점별 -->
+  <div id="detail" class="tab-content">
+    <div class="branch-tabs" id="branchSelector"></div>
+    <div id="branchDetailContent"></div>
+  </div>
+
+  <!-- TAB 3: 비교 -->
+  <div id="compare" class="tab-content">
+    <div class="grid-2">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--brand)"></span>지점별 상품 매출</div></div><div class="chart-wrap-lg"><canvas id="compareBarChart"></canvas></div></div>
+      <div class="panel" id="rankPanel"></div>
+    </div>
+    <div class="grid-full">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--pink)"></span>전년 동월 비교</div></div><div id="yoyTable"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BRANCHES = ['samsung','centroad','posco','hanam'];
+const BN = { samsung:'삼성점', centroad:'센트로드점', posco:'포스코타워점', hanam:'하남미사점' };
+const BC = { samsung:'#7c3aed', centroad:'#10b981', posco:'#f59e0b', hanam:'#3b82f6' };
+
+const TGT = {
+  samsung:{total:246163411,office:181313983,virtual:60545400,dive:4304028,rental:118083},
+  centroad:{total:68408761,office:36864942,virtual:26037258,dive:4555249,rental:36442},
+  posco:{total:160937770,office:122544958,virtual:28629400,dive:6388200,rental:1000617},
+  hanam:{total:48936944,office:32264908,virtual:10461803,dive:4343291,rental:76100}
+};
+
+const MD = {
+  '2026-01': {
+    samsung:{office:173561509,occ:92,up:416068,om:7.55,vt:53940000,vn:15570000,vr:38370000,dv:1811000,dn:1811000,dr:0,rt:1510000,rc:20,rm:-8.62,total:228159054,ar:92.69,mom:-7.31},
+    centroad:{office:32888708,occ:91,up:313238,om:-1.39,vt:26351637,vn:8464364,vr:17887273,dv:4253636,dn:3853636,dr:400000,rt:384091,rc:8,rm:-22.90,total:62850572,ar:93.17,mom:-6.83},
+    posco:{office:115303397,occ:98,up:384992,om:-4.15,vt:23768056,vn:7368000,vr:16400056,dv:3069909,dn:2669909,dr:400000,rt:677727,rc:3,rm:-84.87,total:141233271,ar:89.64,mom:-10.36},
+    hanam:{office:32760324,occ:96,up:467681,om:4.70,vt:7839454,vn:4524000,vr:3315454,dv:4087272,dn:740000,dr:3347272,rt:1131816,rc:19,rm:-26.11,total:44437050,ar:94.41,mom:-5.59,
+      funnel:{lead:52,tour:11,contract:7,tourRate:21,vr:4},vacancy:[{r:'1인실',q:37,e:1},{r:'2인실',q:6,e:1},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
+  },
+  '2026-02': {
+    samsung:{office:179905000,occ:95,up:408191,om:3.65,vt:39220000,vn:2100000,vr:37120000,dv:3426000,dn:3426000,dr:0,rt:2360000,rc:25,rm:56.29,total:219572726,ar:89.20,mom:-3.53},
+    centroad:{office:31909286,occ:90,up:309633,om:-2.98,vt:25062939,vn:9106364,vr:15956575,dv:3464000,dn:3064000,dr:400000,rt:363636,rc:7,rm:-5.33,total:60348769,ar:89.46,mom:-3.98},
+    posco:{office:113884264,occ:93,up:399169,om:-1.23,vt:20835000,vn:5745000,vr:15090000,dv:3303280,dn:2903280,dr:400000,rt:790000,rc:6,rm:16.57,total:138083926,ar:87.64,mom:-2.24},
+    hanam:{office:32282142,occ:93,up:461268,om:-1.46,vt:7730363,vn:2980363,vr:4750000,dv:2412395,dn:436363,dr:1976032,rt:659090,rc:10,rm:-41.77,total:41858889,ar:88.93,mom:-5.80,
+      funnel:{lead:45,tour:9,contract:5,tourRate:20,vr:8},vacancy:[{r:'1인실',q:37,e:2},{r:'2인실',q:6,e:2},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
+  },
+  '2026-03': {
+    samsung:{office:178643182,occ:96,up:405958,om:-0.70,vt:66772329,vn:23232000,vr:43540329,dv:6037000,dn:6037000,dr:0,rt:5837500,rc:50,rm:147.35,total:257290011,ar:104.52,mom:17.17},
+    centroad:{office:32875714,occ:89,up:319182,om:3.03,vt:21577818,vn:5449636,vr:16128182,dv:5437200,dn:5037200,dr:400000,rt:492045,rc:18,rm:35.31,total:60382777,ar:88.27,mom:0.06},
+    posco:{office:104118545,occ:88,up:388246,om:-8.58,vt:26992604,vn:6627000,vr:20365604,dv:3867818,dn:3467818,dr:400000,rt:1363182,rc:11,rm:72.55,total:136342149,ar:86.53,mom:-1.26},
+    hanam:{office:31488387,occ:92,up:462899,om:-2.46,vt:7243635,vn:1734545,vr:5509090,dv:3800800,dn:1592000,dr:2208800,rt:1350454,rc:26,rm:104.90,total:43883276,ar:93.23,mom:4.83,
+      funnel:{lead:49,tour:9,contract:6,tourRate:18,vr:8},vacancy:[{r:'1인실',q:37,e:3},{r:'2인실',q:6,e:2},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
+  }
+};
+
+// 2026 월별 합계 (추이 차트용)
+const MONTHS_2026 = ['1월','2월','3월'];
+const MONTH_KEYS = ['2026-01','2026-02','2026-03'];
+function sumByMonth(field) { return MONTH_KEYS.map(m => BRANCHES.reduce((s,b) => s + MD[m][b][field], 0)); }
+const OFF_26 = sumByMonth('office');
+const VIR_26 = sumByMonth('vt');
+const DIV_26 = sumByMonth('dv');
+const REN_26 = sumByMonth('rt');
+const TOT_26 = sumByMonth('total');
+
+// 2025 YoY
+const YOY = {'01':{samsung:227720854,centroad:58139859,posco:126731620,hanam:35835397},'02':{samsung:221423721,centroad:59174329,posco:136668964,hanam:34275226},'03':{samsung:218799289,centroad:63150811,posco:124777720,hanam:33976178}};
+
+// Helpers
+const f=n=>n.toLocaleString('ko-KR');
+const eokS=n=>(n/1e8).toFixed(1);
+const manW=n=>f(Math.round(n/1e4));
+function smartUnit(n){return n>=1e8?eokS(n)+'억':manW(n)+'만';}
+function smartUnitFull(n){return manW(n)+'만원';}
+function pill(v){if(v>0)return`<span class="pill pill-up">\u25B2 ${Math.abs(v).toFixed(1)}%</span>`;if(v<0)return`<span class="pill pill-down">\u25BC ${Math.abs(v).toFixed(1)}%</span>`;return`<span class="pill pill-neutral">0.0%</span>`;}
+function cv(v){if(v>0)return`<span style="color:var(--green)">\u25B2 ${Math.abs(v).toFixed(1)}%</span>`;if(v<0)return`<span style="color:var(--red)">\u25BC ${Math.abs(v).toFixed(1)}%</span>`;return`<span style="color:var(--text-tertiary)">0.0%</span>`;}
+function achColor(v){return v>=100?'var(--green)':v>=95?'var(--green)':v>=90?'var(--amber)':'var(--red)';}
+
+let charts={};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+function gd(){return MD[document.getElementById('yearMonth').value];}
+function ml(){return document.getElementById('yearMonth').value.replace('2026-','').replace(/^0/,'')+'월';}
+
+const CP={grid:'rgba(255,255,255,.04)',tick:'#52525b',ttBg:'#18181b',ttBd:'rgba(255,255,255,.1)',ttT:'#fafafa',ttB:'#a1a1aa',
+  office:'#7c3aed',officeSoft:'rgba(124,58,237,.15)',virtual:'#10b981',virtualSoft:'rgba(16,185,129,.15)',
+  dive:'#f59e0b',diveSoft:'rgba(245,158,11,.15)',rental:'#ec4899',rentalSoft:'rgba(236,72,153,.15)',brand:'#FF5A00'};
+
+function cOpts(extra){return{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{backgroundColor:CP.ttBg,borderColor:CP.ttBd,borderWidth:1,titleColor:CP.ttT,bodyColor:CP.ttB,padding:12,cornerRadius:8,titleFont:{weight:600},bodyFont:{size:12},callbacks:{label:ctx=>ctx.dataset.label+': '+f(ctx.parsed.y)+'원'}},legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:16,color:'#a1a1aa',font:{size:12,weight:500}}}},...extra};}
+
+// ====== RENDER ======
+function renderOverview(){
+  const d=gd(),label=ml();
+  let tRev=0,tTgt=0,tOff=0,tVir=0,tDiv=0,tRen=0,wOcc=0,wUp=0;
+  BRANCHES.forEach(b=>{tRev+=d[b].total;tTgt+=TGT[b].total;tOff+=d[b].office;tVir+=d[b].vt;tDiv+=d[b].dv;tRen+=d[b].rt;wOcc+=d[b].occ;wUp+=d[b].up;});
+  const ar=(tRev/tTgt*100).toFixed(1),aOcc=Math.round(wOcc/4),aUp=Math.round(wUp/4),aMom=BRANCHES.reduce((s,b)=>s+d[b].mom,0)/4;
+
+  document.getElementById('overviewCards').innerHTML=`
+    <div class="metric-card"><div class="metric-label">${label} 총 매출</div><div class="metric-value">${eokS(tRev)}<span class="metric-unit">억원</span></div><div class="metric-sub">${pill(aMom)} 전월 대비</div></div>
+    <div class="metric-card"><div class="metric-label">목표 달성률</div><div class="metric-value" style="color:${achColor(ar)}">${ar}<span class="metric-unit">%</span></div><div class="metric-sub">목표 ${eokS(tTgt)}억</div></div>
+    <div class="metric-card"><div class="metric-label">오피스 평균 점유율</div><div class="metric-value" style="color:var(--green)">${aOcc}<span class="metric-unit">%</span></div><div class="metric-sub">4개 지점 평균</div></div>
+    <div class="metric-card"><div class="metric-label">평균 객단가</div><div class="metric-value">${(aUp/1e4).toFixed(1)}<span class="metric-unit">만원</span></div><div class="metric-sub">${f(aUp)}원</div></div>`;
+
+  const sorted=[...BRANCHES].sort((a,b)=>d[b].ar-d[a].ar);
+  document.getElementById('branchBars').innerHTML=sorted.map(b=>`
+    <div class="branch-item"><div class="branch-label">${BN[b]}</div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:${Math.min(d[b].ar,100)}%;background:${BC[b]}"></div></div><div class="bar-meta"><span>목표 ${manW(TGT[b].total)}만</span><span>실적 ${manW(d[b].total)}만</span></div></div><div class="branch-pct" style="color:${BC[b]}">${d[b].ar.toFixed(1)}%</div></div>`).join('');
+
+  // Pie
+  const pcts=[tOff,tVir,tDiv,tRen].map(v=>(v/tRev*100).toFixed(1));
+  dc('productPieChart');
+  charts['productPieChart']=new Chart(document.getElementById('productPieChart'),{type:'doughnut',data:{labels:[`오피스 ${pcts[0]}%`,`비상주 ${pcts[1]}%`,`다이브나인 ${pcts[2]}%`,`대관 ${pcts[3]}%`],datasets:[{data:[tOff,tVir,tDiv,tRen],backgroundColor:[CP.office,CP.virtual,CP.dive,CP.rental],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{usePointStyle:true,pointStyle:'circle',padding:14,color:'#a1a1aa',font:{size:12,weight:500}}},tooltip:{backgroundColor:CP.ttBg,borderColor:CP.ttBd,borderWidth:1,titleColor:CP.ttT,bodyColor:CP.ttB,padding:12,cornerRadius:8,callbacks:{label:ctx=>ctx.label+': '+f(ctx.raw)+'원'}}}}});
+
+  // Detail table
+  let th=`<table class="data-table"><thead><tr><th>지점</th><th class="num">오피스</th><th class="num">점유율</th><th class="num">객단가</th><th class="num">비상주</th><th class="num">다이브나인</th><th class="num">대관</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
+  BRANCHES.forEach(b=>{const r=d[b];th+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(r.office)}</td><td class="num">${r.occ}%</td><td class="num">${f(r.up)}</td><td class="num">${f(r.vt)}</td><td class="num">${f(r.dv)}</td><td class="num">${f(r.rt)}</td><td class="num"><strong>${f(r.total)}</strong></td><td class="num"><span style="color:${achColor(r.ar)};font-weight:600">${r.ar.toFixed(1)}%</span></td><td class="num">${cv(r.mom)}</td></tr>`;});
+  th+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tOff)}</td><td class="num">${aOcc}%</td><td class="num">${f(aUp)}</td><td class="num">${f(tVir)}</td><td class="num">${f(tDiv)}</td><td class="num">${f(tRen)}</td><td class="num">${f(tRev)}</td><td class="num"><span style="color:${achColor(ar)};font-weight:600">${ar}%</span></td><td class="num">${cv(aMom)}</td></tr></tbody></table>`;
+  document.getElementById('detailTable').innerHTML=th;
+
+  // Trend chart 1: 오피스 & 비상주
+  dc('trendChart1');
+  charts['trendChart1']=new Chart(document.getElementById('trendChart1'),{type:'line',data:{labels:MONTHS_2026,datasets:[
+    {label:'오피스',data:OFF_26,borderColor:CP.office,backgroundColor:CP.officeSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.office,pointBorderWidth:0,pointHoverRadius:7},
+    {label:'비상주',data:VIR_26,borderColor:CP.virtual,backgroundColor:CP.virtualSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.virtual,pointBorderWidth:0,pointHoverRadius:7}
+  ]},options:cOpts({interaction:{intersect:false,mode:'index'},scales:{y:{ticks:{callback:v=>(v/1e8).toFixed(1)+'억',color:CP.tick},grid:{color:CP.grid}},x:{grid:{display:false},ticks:{color:CP.tick}}}})});
+
+  // Trend chart 2: 다이브나인 & 대관
+  dc('trendChart2');
+  charts['trendChart2']=new Chart(document.getElementById('trendChart2'),{type:'line',data:{labels:MONTHS_2026,datasets:[
+    {label:'다이브나인',data:DIV_26,borderColor:CP.dive,backgroundColor:CP.diveSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.dive,pointBorderWidth:0,pointHoverRadius:7},
+    {label:'대관',data:REN_26,borderColor:CP.rental,backgroundColor:CP.rentalSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.rental,pointBorderWidth:0,pointHoverRadius:7}
+  ]},options:cOpts({interaction:{intersect:false,mode:'index'},scales:{y:{ticks:{callback:v=>(v/1e6).toFixed(0)+'백만',color:CP.tick},grid:{color:CP.grid}},x:{grid:{display:false},ticks:{color:CP.tick}}}})});
+}
+
+function renderDetail(){
+  const sel=document.getElementById('branchSelector');
+  const ab=sel.querySelector('.active')?.dataset.branch||'samsung';
+  sel.innerHTML=BRANCHES.map(b=>`<button class="branch-tab ${b===ab?'active':''}" data-branch="${b}">${BN[b]}</button>`).join('');
+  sel.querySelectorAll('.branch-tab').forEach(btn=>{btn.addEventListener('click',()=>{sel.querySelectorAll('.branch-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderBranch(btn.dataset.branch);});});
+  renderBranch(ab);
+}
+
+function renderBranch(b){
+  const d=gd(),r=d[b],t=TGT[b],label=ml(),el=document.getElementById('branchDetailContent');
+
+  // 상품별 달성률 (대관은 목표 없이 실적만)
+  const products=[
+    {name:'오피스',actual:r.office,target:t.office,color:CP.office,hasTarget:true},
+    {name:'비상주',actual:r.vt,target:t.virtual,color:CP.virtual,hasTarget:true},
+    {name:'다이브나인',actual:r.dv,target:t.dive,color:CP.dive,hasTarget:true},
+    {name:'대관',actual:r.rt,target:0,color:CP.rental,hasTarget:false}
+  ];
+
+  let h=`<div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">${label} 매출</div><div class="metric-value">${manW(r.total)}<span class="metric-unit">만원</span></div><div class="metric-sub">${pill(r.mom)} 전월 대비</div></div>
+    <div class="metric-card"><div class="metric-label">달성률</div><div class="metric-value" style="color:${achColor(r.ar)}">${r.ar.toFixed(1)}<span class="metric-unit">%</span></div><div class="metric-sub">목표 ${manW(t.total)}만</div></div>
+    <div class="metric-card"><div class="metric-label">점유율</div><div class="metric-value" style="color:var(--green)">${r.occ}<span class="metric-unit">%</span></div><div class="metric-sub">${pill(r.om)} 전월 대비</div></div>
+    <div class="metric-card"><div class="metric-label">객단가</div><div class="metric-value">${(r.up/1e4).toFixed(1)}<span class="metric-unit">만</span></div><div class="metric-sub">${f(r.up)}원</div></div>
+  </div>`;
+
+  // 월별 테이블 빌더 (신규/재계약)
+  function buildTable(title,dotColor,fTotal,fNew,fRenew,targetVal){
+    let tbl=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:${dotColor}"></span>${title}</div></div>`;
+    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">신규</th><th class="num">재계약</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
+    let prev=null;
+    MONTH_KEYS.forEach(m=>{
+      const x=MD[m][b], cur=x[fTotal], pct=targetVal>0?(cur/targetVal*100):0;
+      const mom=prev!==null?((cur-prev)/prev*100):0;
+      tbl+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">${f(x[fNew])}</td><td class="num">${f(x[fRenew])}</td><td class="num"><strong>${f(cur)}</strong></td>`;
+      tbl+=`<td class="num"><span style="color:${achColor(pct)};font-weight:600">${pct.toFixed(1)}%</span></td>`;
+      tbl+=`<td class="num">${prev!==null?cv(mom):'-'}</td></tr>`;
+      prev=cur;
+    });
+    tbl+=`</tbody></table></div>`;
+    return tbl;
+  }
+
+  // 대관 월별 빌더
+  function buildRentalTable(){
+    let tbl=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--pink)"></span>대관 월별</div></div>`;
+    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">매출</th><th class="num">건수</th><th class="num">전월비</th></tr></thead><tbody>`;
+    let prev=null;
+    MONTH_KEYS.forEach(m=>{
+      const x=MD[m][b], cur=x.rt;
+      const mom=prev!==null?((cur-prev)/prev*100):0;
+      tbl+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">${f(cur)}</td><td class="num">${x.rc}</td>`;
+      tbl+=`<td class="num">${prev!==null?cv(mom):'-'}</td></tr>`;
+      prev=cur;
+    });
+    tbl+=`</tbody></table></div>`;
+    return tbl;
+  }
+
+  // ROW 1: 상품별 목표 달성 + 비상주 월별
+  h+=`<div class="grid-2">`;
+  // 상품별 목표 달성 (프로그레스 바)
+  h+=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--accent)"></span>상품별 목표 달성 (${label})</div></div>`;
+  products.forEach(p=>{
+    if(p.hasTarget){
+      const pct=p.target>0?(p.actual/p.target*100):0;
+      const gap=p.actual-p.target;
+      h+=`<div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--border-subtle)">
+        <div style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+            <span style="font-size:18px;font-weight:700;color:${achColor(pct)}">${pct.toFixed(1)}%</span>
+            <span style="font-size:11px;color:var(--text-quaternary)">${manW(p.actual)}만 / ${manW(p.target)}만</span>
+          </div>
+          <div style="width:100%;height:8px;background:var(--bg-overlay);border-radius:4px;overflow:hidden;position:relative">
+            <div style="height:100%;width:${Math.min(pct,100)}%;background:${p.color};border-radius:4px;transition:width .6s ease"></div>
+            ${pct<100?`<div style="position:absolute;right:0;top:0;height:100%;width:2px;background:var(--border-strong)"></div>`:''}
+          </div>
+          <div style="font-size:11px;color:var(--text-quaternary);margin-top:4px">${gap>=0?'<span style=color:var(--green)>+'+manW(gap)+'만 초과</span>':'<span style=color:var(--red)>'+manW(gap)+'만 부족</span>'}</div>
+        </div>
+      </div>`;
+    } else {
+      h+=`<div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--border-subtle)">
+        <div style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:18px;font-weight:700;color:var(--text-primary)">${manW(p.actual)}<span style="font-size:13px;color:var(--text-tertiary);font-weight:500">만원</span></span>
+          </div>
+        </div>
+      </div>`;
+    }
+  });
+  h+=`</div>`;
+  // 비상주 월별
+  h+=buildTable('비상주 월별','var(--green)','vt','vn','vr',t.virtual);
+  h+=`</div>`;
+
+  // ROW 2: 다이브나인 월별 + 대관 월별
+  h+=`<div class="grid-2">`;
+  h+=buildTable('다이브나인 월별','var(--amber)','dv','dn','dr',t.dive);
+  h+=buildRentalTable();
+  h+=`</div>`;
+
+  el.innerHTML=h;
+}
+
+function renderCompare(){
+  const d=gd(),label=ml(),mm=document.getElementById('yearMonth').value.split('-')[1];
+
+  dc('compareBarChart');
+  charts['compareBarChart']=new Chart(document.getElementById('compareBarChart'),{type:'bar',data:{labels:BRANCHES.map(b=>BN[b]),datasets:[
+    {label:'오피스',data:BRANCHES.map(b=>d[b].office),backgroundColor:CP.office,borderRadius:6,barPercentage:.65},
+    {label:'비상주',data:BRANCHES.map(b=>d[b].vt),backgroundColor:CP.virtual,borderRadius:6,barPercentage:.65},
+    {label:'다이브나인',data:BRANCHES.map(b=>d[b].dv),backgroundColor:CP.dive,borderRadius:6,barPercentage:.65},
+    {label:'대관',data:BRANCHES.map(b=>d[b].rt),backgroundColor:CP.rental,borderRadius:6,barPercentage:.65}
+  ]},options:cOpts({scales:{x:{stacked:true,grid:{display:false},ticks:{color:CP.tick}},y:{stacked:true,ticks:{callback:v=>f(Math.round(v/1e4))+'만',color:CP.tick},grid:{color:CP.grid}}},plugins:{legend:{position:'top'}}})});
+
+  const as=[...BRANCHES].sort((a,b)=>d[b].ar-d[a].ar);
+  const ps=[...BRANCHES].sort((a,b)=>d[b].up-d[a].up);
+  const rc=['rb-1','rb-2','rb-3','rb-4'];
+
+  let rh=`<div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--green)"></span>달성률 순위 (${label})</div></div>`;
+  as.forEach((b,i)=>{rh+=`<div class="rank-row"><div class="rank-badge ${rc[i]}">${i+1}</div><div class="rank-info"><div class="rank-name">${BN[b]}</div><div class="rank-sub">목표 ${manW(TGT[b].total)}만 · 실적 ${manW(d[b].total)}만</div></div><div class="rank-val" style="color:${achColor(d[b].ar)}">${d[b].ar.toFixed(1)}%</div></div>`;});
+  rh+=`<div class="section-label" style="margin-top:20px">객단가 순위</div>`;
+  ps.forEach((b,i)=>{rh+=`<div class="rank-row"><div class="rank-badge ${rc[i]}">${i+1}</div><div class="rank-info"><div class="rank-name">${BN[b]}</div></div><div class="rank-val">${f(d[b].up)}</div></div>`;});
+  document.getElementById('rankPanel').innerHTML=rh;
+
+  if(YOY[mm]){
+    const prev=YOY[mm];
+    let yh=`<table class="data-table"><thead><tr><th>지점</th><th class="num">2025 ${label}</th><th class="num">2026 ${label}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
+    BRANCHES.forEach(b=>{const df=(d[b].total-prev[b])/prev[b]*100,da=d[b].total-prev[b];yh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(prev[b])}</td><td class="num">${f(d[b].total)}</td><td class="num">${cv(df)}</td><td class="num" style="color:${da>=0?'var(--green)':'var(--red)'}">${da>=0?'+':''}${f(da)}</td></tr>`;});
+    const tp=BRANCHES.reduce((s,b)=>s+prev[b],0),tc=BRANCHES.reduce((s,b)=>s+d[b].total,0),td=(tc-tp)/tp*100;
+    yh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp)}</td><td class="num">${f(tc)}</td><td class="num">${cv(td)}</td><td class="num" style="color:${tc-tp>=0?'var(--green)':'var(--red)'}">${tc-tp>=0?'+':''}${f(tc-tp)}</td></tr></tbody></table>`;
+    document.getElementById('yoyTable').innerHTML=yh;
+  }
+}
+
+// ====== INIT ======
+Chart.defaults.color='#71717a';
+Chart.defaults.borderColor='rgba(255,255,255,.04)';
+Chart.defaults.font.family="'Inter',-apple-system,BlinkMacSystemFont,sans-serif";
+Chart.defaults.font.size=12;
+
+function renderAll(){renderOverview();renderDetail();renderCompare();}
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');
+});});
+
+document.getElementById('yearMonth').addEventListener('change',renderAll);
+renderAll();
+</script>
+</body>
+</html>
