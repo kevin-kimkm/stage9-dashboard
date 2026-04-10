@@ -167,7 +167,7 @@
       <option value="2026-02">2026년 2월</option>
       <option value="2026-01">2026년 1월</option>
     </select>
-    <div class="update-badge">업데이트 2026.04.06</div>
+    <div class="update-badge" id="updateDate"></div>
   </div>
 </div>
 
@@ -479,6 +479,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click'
 });});
 
 document.getElementById('yearMonth').addEventListener('change',renderAll);
+const now=new Date();document.getElementById('updateDate').textContent='업데이트 '+now.getFullYear()+'.'+(''+(now.getMonth()+1)).padStart(2,'0')+'.'+(''+now.getDate()).padStart(2,'0');
 renderAll();
 </script>
 </body>
