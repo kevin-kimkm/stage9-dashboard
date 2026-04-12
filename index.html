@@ -194,6 +194,7 @@
       <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--accent)"></span>오피스 · 비상주 매출 추이</div></div><div class="chart-wrap"><canvas id="trendChart1"></canvas></div></div>
       <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--amber)"></span>다이브나인 · 대관 매출 추이</div></div><div class="chart-wrap"><canvas id="trendChart2"></canvas></div></div>
     </div>
+    <div class="grid-full" id="funnelOverview"></div>
   </div>
 
   <!-- TAB 2: 지점별 -->
@@ -228,24 +229,24 @@ const TGT = {
 
 const MD = {
   '2026-01': {
-    samsung:{office:173561509,occ:92,up:416068,om:7.55,vt:53940000,vn:15570000,vr:38370000,dv:1811000,dn:1811000,dr:0,rt:1510000,rc:20,rm:-8.62,total:228159054,ar:92.69,mom:-7.31},
-    centroad:{office:32888708,occ:91,up:313238,om:-1.39,vt:26351637,vn:8464364,vr:17887273,dv:4253636,dn:3853636,dr:400000,rt:384091,rc:8,rm:-22.90,total:62850572,ar:93.17,mom:-6.83},
-    posco:{office:115303397,occ:98,up:384992,om:-4.15,vt:23768056,vn:7368000,vr:16400056,dv:3069909,dn:2669909,dr:400000,rt:677727,rc:3,rm:-84.87,total:141233271,ar:89.64,mom:-10.36},
-    hanam:{office:32760324,occ:96,up:467681,om:4.70,vt:7839454,vn:4524000,vr:3315454,dv:4087272,dn:740000,dr:3347272,rt:1131816,rc:19,rm:-26.11,total:44437050,ar:94.41,mom:-5.59,
+    samsung:{office:173561509,occ:92,up:416068,om:7.55,vt:53940000,vn:15570000,vr:38370000,dv:1811000,dn:1811000,dr:0,rt:1510000,rc:20,rm:-8.62,total:228159054,ar:92.69,mom:-7.31,lead:59,tour:20,contract:6},
+    centroad:{office:32888708,occ:91,up:313238,om:-1.39,vt:26351637,vn:8464364,vr:17887273,dv:4253636,dn:3853636,dr:400000,rt:384091,rc:8,rm:-22.90,total:62850572,ar:93.17,mom:-6.83,lead:0,tour:0,contract:0},
+    posco:{office:115303397,occ:98,up:384992,om:-4.15,vt:23768056,vn:7368000,vr:16400056,dv:3069909,dn:2669909,dr:400000,rt:677727,rc:3,rm:-84.87,total:141233271,ar:89.64,mom:-10.36,lead:0,tour:0,contract:0},
+    hanam:{office:32760324,occ:96,up:467681,om:4.70,vt:7839454,vn:4524000,vr:3315454,dv:4087272,dn:740000,dr:3347272,rt:1131816,rc:19,rm:-26.11,total:44437050,ar:94.41,mom:-5.59,lead:52,tour:11,contract:7,
       funnel:{lead:52,tour:11,contract:7,tourRate:21,vr:4},vacancy:[{r:'1인실',q:37,e:1},{r:'2인실',q:6,e:1},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
   },
   '2026-02': {
-    samsung:{office:179905000,occ:95,up:408191,om:3.65,vt:39220000,vn:2100000,vr:37120000,dv:3426000,dn:3426000,dr:0,rt:2360000,rc:25,rm:56.29,total:219572726,ar:89.20,mom:-3.53},
-    centroad:{office:31909286,occ:90,up:309633,om:-2.98,vt:25062939,vn:9106364,vr:15956575,dv:3464000,dn:3064000,dr:400000,rt:363636,rc:7,rm:-5.33,total:60348769,ar:89.46,mom:-3.98},
-    posco:{office:113884264,occ:93,up:399169,om:-1.23,vt:20835000,vn:5745000,vr:15090000,dv:3303280,dn:2903280,dr:400000,rt:790000,rc:6,rm:16.57,total:138083926,ar:87.64,mom:-2.24},
-    hanam:{office:32282142,occ:93,up:461268,om:-1.46,vt:7730363,vn:2980363,vr:4750000,dv:2412395,dn:436363,dr:1976032,rt:659090,rc:10,rm:-41.77,total:41858889,ar:88.93,mom:-5.80,
+    samsung:{office:179905000,occ:95,up:408191,om:3.65,vt:39220000,vn:2100000,vr:37120000,dv:3426000,dn:3426000,dr:0,rt:2360000,rc:25,rm:56.29,total:219572726,ar:89.20,mom:-3.53,lead:46,tour:12,contract:8},
+    centroad:{office:31909286,occ:90,up:309633,om:-2.98,vt:25062939,vn:9106364,vr:15956575,dv:3464000,dn:3064000,dr:400000,rt:363636,rc:7,rm:-5.33,total:60348769,ar:89.46,mom:-3.98,lead:0,tour:0,contract:0},
+    posco:{office:113884264,occ:93,up:399169,om:-1.23,vt:20835000,vn:5745000,vr:15090000,dv:3303280,dn:2903280,dr:400000,rt:790000,rc:6,rm:16.57,total:138083926,ar:87.64,mom:-2.24,lead:0,tour:0,contract:0},
+    hanam:{office:32282142,occ:93,up:461268,om:-1.46,vt:7730363,vn:2980363,vr:4750000,dv:2412395,dn:436363,dr:1976032,rt:659090,rc:10,rm:-41.77,total:41858889,ar:88.93,mom:-5.80,lead:45,tour:9,contract:5,
       funnel:{lead:45,tour:9,contract:5,tourRate:20,vr:8},vacancy:[{r:'1인실',q:37,e:2},{r:'2인실',q:6,e:2},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
   },
   '2026-03': {
-    samsung:{office:178643182,occ:96,up:405958,om:-0.70,vt:66772329,vn:23232000,vr:43540329,dv:6037000,dn:6037000,dr:0,rt:5837500,rc:50,rm:147.35,total:257290011,ar:104.52,mom:17.17},
-    centroad:{office:32875714,occ:89,up:319182,om:3.03,vt:21577818,vn:5449636,vr:16128182,dv:5437200,dn:5037200,dr:400000,rt:492045,rc:18,rm:35.31,total:60382777,ar:88.27,mom:0.06},
-    posco:{office:104118545,occ:88,up:388246,om:-8.58,vt:26992604,vn:6627000,vr:20365604,dv:3867818,dn:3467818,dr:400000,rt:1363182,rc:11,rm:72.55,total:136342149,ar:86.53,mom:-1.26},
-    hanam:{office:31488387,occ:92,up:462899,om:-2.46,vt:7243635,vn:1734545,vr:5509090,dv:3800800,dn:1592000,dr:2208800,rt:1350454,rc:26,rm:104.90,total:43883276,ar:93.23,mom:4.83,
+    samsung:{office:178643182,occ:96,up:405958,om:-0.70,vt:66772329,vn:23232000,vr:43540329,dv:6037000,dn:6037000,dr:0,rt:5837500,rc:50,rm:147.35,total:257290011,ar:104.52,mom:17.17,lead:54,tour:13,contract:4},
+    centroad:{office:32875714,occ:89,up:319182,om:3.03,vt:21577818,vn:5449636,vr:16128182,dv:5437200,dn:5037200,dr:400000,rt:492045,rc:18,rm:35.31,total:60382777,ar:88.27,mom:0.06,lead:0,tour:0,contract:0},
+    posco:{office:104118545,occ:88,up:388246,om:-8.58,vt:26992604,vn:6627000,vr:20365604,dv:3867818,dn:3467818,dr:400000,rt:1363182,rc:11,rm:72.55,total:136342149,ar:86.53,mom:-1.26,lead:0,tour:0,contract:0},
+    hanam:{office:31488387,occ:92,up:462899,om:-2.46,vt:7243635,vn:1734545,vr:5509090,dv:3800800,dn:1592000,dr:2208800,rt:1350454,rc:26,rm:104.90,total:43883276,ar:93.23,mom:4.83,lead:49,tour:9,contract:6,
       funnel:{lead:49,tour:9,contract:6,tourRate:18,vr:8},vacancy:[{r:'1인실',q:37,e:3},{r:'2인실',q:6,e:2},{r:'3인실',q:1,e:0},{r:'4인실',q:4,e:0},{r:'6인실',q:1,e:0}]}
   }
 };
@@ -272,6 +273,7 @@ function smartUnitFull(n){return manW(n)+'만원';}
 function pill(v){if(v>0)return`<span class="pill pill-up">\u25B2 ${Math.abs(v).toFixed(1)}%</span>`;if(v<0)return`<span class="pill pill-down">\u25BC ${Math.abs(v).toFixed(1)}%</span>`;return`<span class="pill pill-neutral">0.0%</span>`;}
 function cv(v){if(v>0)return`<span style="color:var(--green)">\u25B2 ${Math.abs(v).toFixed(1)}%</span>`;if(v<0)return`<span style="color:var(--red)">\u25BC ${Math.abs(v).toFixed(1)}%</span>`;return`<span style="color:var(--text-tertiary)">0.0%</span>`;}
 function achColor(v){return v>=100?'var(--green)':v>=95?'var(--green)':v>=90?'var(--amber)':'var(--red)';}
+function funnelColor(v,type){if(type==='tourRate')return v>=30?'var(--green)':v>=20?'var(--amber)':'var(--red)';if(type==='leadContract')return v>=15?'var(--green)':v>=10?'var(--amber)':'var(--red)';if(type==='tourContract')return v>=50?'var(--green)':v>=30?'var(--amber)':'var(--red)';return 'var(--text-secondary)';}
 
 let charts={};
 function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
@@ -325,6 +327,26 @@ function renderOverview(){
     {label:'다이브나인',data:DIV_26,borderColor:CP.dive,backgroundColor:CP.diveSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.dive,pointBorderWidth:0,pointHoverRadius:7},
     {label:'대관',data:REN_26,borderColor:CP.rental,backgroundColor:CP.rentalSoft,fill:true,tension:.35,borderWidth:2.5,pointRadius:5,pointBackgroundColor:CP.rental,pointBorderWidth:0,pointHoverRadius:7}
   ]},options:cOpts({interaction:{intersect:false,mode:'index'},scales:{y:{ticks:{callback:v=>(v/1e6).toFixed(0)+'백만',color:CP.tick},grid:{color:CP.grid}},x:{grid:{display:false},ticks:{color:CP.tick}}}})});
+
+  // 영업 퍼널 현황
+  let fh=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--cyan)"></span>영업 퍼널 현황 (오피스)</div></div>`;
+  fh+=`<table class="data-table"><thead><tr><th>지점</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
+  let sumLead=0,sumTour=0,sumContract=0;
+  BRANCHES.forEach(b=>{
+    const r=d[b];
+    if(r.lead===0){
+      const noData=(b==='centroad'||b==='posco')?'데이터 미입력':'-';
+      fh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${noData}</td><td class="num">${noData}</td><td class="num">${noData}</td><td class="num">${noData}</td><td class="num">${noData}</td><td class="num">${noData}</td></tr>`;
+    } else {
+      const tourRate=(r.tour/r.lead*100),leadContract=(r.contract/r.lead*100),tourContract=r.tour>0?(r.contract/r.tour*100):0;
+      sumLead+=r.lead;sumTour+=r.tour;sumContract+=r.contract;
+      fh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${r.lead}</td><td class="num">${r.tour}</td><td class="num"><span style="color:${funnelColor(tourRate,'tourRate')};font-weight:600">${tourRate.toFixed(1)}%</span></td><td class="num">${r.contract}</td><td class="num"><span style="color:${funnelColor(leadContract,'leadContract')};font-weight:600">${leadContract.toFixed(1)}%</span></td><td class="num"><span style="color:${funnelColor(tourContract,'tourContract')};font-weight:600">${tourContract.toFixed(1)}%</span></td></tr>`;
+    }
+  });
+  const sTourRate=sumLead>0?(sumTour/sumLead*100):0,sLeadContract=sumLead>0?(sumContract/sumLead*100):0,sTourContract=sumTour>0?(sumContract/sumTour*100):0;
+  fh+=`<tr class="row-total"><td>전 지점</td><td class="num">${sumLead}</td><td class="num">${sumTour}</td><td class="num"><span style="color:${funnelColor(sTourRate,'tourRate')};font-weight:600">${sTourRate.toFixed(1)}%</span></td><td class="num">${sumContract}</td><td class="num"><span style="color:${funnelColor(sLeadContract,'leadContract')};font-weight:600">${sLeadContract.toFixed(1)}%</span></td><td class="num"><span style="color:${funnelColor(sTourContract,'tourContract')};font-weight:600">${sTourContract.toFixed(1)}%</span></td></tr>`;
+  fh+=`</tbody></table></div>`;
+  document.getElementById('funnelOverview').innerHTML=fh;
 }
 
 function renderDetail(){
@@ -429,6 +451,20 @@ function renderBranch(b){
   h+=buildTable('다이브나인 월별','var(--amber)','dv','dn','dr',t.dive);
   h+=buildRentalTable();
   h+=`</div>`;
+
+  // 영업 퍼널 (오피스)
+  h+=`<div class="grid-full"><div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--cyan)"></span>영업 퍼널 (오피스)</div></div>`;
+  h+=`<table class="data-table"><thead><tr><th>월</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
+  MONTH_KEYS.forEach(m=>{
+    const x=MD[m][b];
+    if(x.lead===0){
+      h+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">-</td><td class="num">-</td><td class="num">-</td><td class="num">-</td><td class="num">-</td><td class="num">-</td></tr>`;
+    } else {
+      const tourRate=(x.tour/x.lead*100),leadContract=(x.contract/x.lead*100),tourContract=x.tour>0?(x.contract/x.tour*100):0;
+      h+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">${x.lead}</td><td class="num">${x.tour}</td><td class="num"><span style="color:${funnelColor(tourRate,'tourRate')};font-weight:600">${tourRate.toFixed(1)}%</span></td><td class="num">${x.contract}</td><td class="num"><span style="color:${funnelColor(leadContract,'leadContract')};font-weight:600">${leadContract.toFixed(1)}%</span></td><td class="num"><span style="color:${funnelColor(tourContract,'tourContract')};font-weight:600">${tourContract.toFixed(1)}%</span></td></tr>`;
+    }
+  });
+  h+=`</tbody></table></div></div>`;
 
   el.innerHTML=h;
 }
