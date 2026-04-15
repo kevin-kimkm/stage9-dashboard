@@ -149,8 +149,64 @@
 
   .section-label { font-size:12px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; margin-top:12px; }
 
-  @media (max-width:1100px) { .metric-grid{grid-template-columns:repeat(2,1fr);} .grid-2{grid-template-columns:1fr;} }
-  @media (max-width:640px) { .metric-grid{grid-template-columns:1fr;} .main{padding:16px;} .header{padding:0 16px;} .tab-nav{padding:0 16px;} .branch-tabs{width:100%;} .branch-tab{flex:1;text-align:center;} }
+  /* 태블릿 */
+  @media (max-width:1100px) {
+    .metric-grid { grid-template-columns:repeat(2,1fr); }
+    .grid-2 { grid-template-columns:1fr; }
+  }
+
+  /* 모바일 */
+  @media (max-width:640px) {
+    .metric-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .main { padding:16px; }
+    .header { padding:0 12px; height:56px; }
+    .header-title { display:none; }
+    .header-divider { display:none; }
+    .header-right { gap:8px; }
+    .month-select { font-size:13px; padding:6px 30px 6px 10px; }
+    .update-badge { display:none; }
+    .tab-nav { padding:0 12px; gap:0; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .tab-btn { font-size:13px; padding:14px 2px; margin-right:16px; white-space:nowrap; }
+    .metric-card { padding:16px; }
+    .metric-value { font-size:24px; }
+    .metric-unit { font-size:13px; }
+    .metric-label { font-size:12px; margin-bottom:8px; }
+    .metric-sub { font-size:11px; }
+    .panel { padding:16px; border-radius:10px; }
+    .panel-title { font-size:14px; }
+    .branch-tabs { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .branch-tab { flex:1; text-align:center; font-size:13px; padding:8px 10px; white-space:nowrap; }
+    .branch-label { width:72px; font-size:12px; }
+    .branch-pct { font-size:13px; }
+    .bar-meta { font-size:10px; }
+    .data-table { font-size:12px; }
+    .data-table th { padding:8px 8px; font-size:10px; }
+    .data-table td { padding:10px 8px; }
+    .rank-name { font-size:13px; }
+    .rank-val { font-size:15px; }
+    .chart-wrap,.chart-wrap-lg { height:240px; }
+    .grid-2 { gap:12px; }
+    .grid-full { margin-bottom:12px; }
+    .funnel-val { font-size:22px; }
+    .funnel-label { font-size:12px; }
+    .section-label { font-size:11px; }
+  }
+
+  /* 작은 모바일 */
+  @media (max-width:380px) {
+    .metric-grid { grid-template-columns:1fr; }
+    .metric-value { font-size:28px; }
+    .header { gap:8px; }
+    .month-select { font-size:12px; padding:5px 26px 5px 8px; }
+    .tab-btn { font-size:12px; margin-right:12px; }
+    .branch-tabs { flex-wrap:nowrap; }
+    .branch-tab { font-size:12px; padding:7px 8px; }
+  }
+
+  /* 테이블 가로 스크롤 (모바일) */
+  @media (max-width:768px) {
+    .data-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+  }
 </style>
 </head>
 <body>
