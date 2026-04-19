@@ -603,7 +603,12 @@ function switchTab(tabId){
 
 document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>switchTab(btn.dataset.tab));});
 
-document.getElementById('yearMonth').addEventListener('change',renderAll);
+document.getElementById('yearMonth').addEventListener('change',function(){
+  localStorage.setItem('s9-month',this.value);
+  renderAll();
+});
+// 저장된 월 복원
+(function(){const sm=localStorage.getItem('s9-month');if(sm){const sel=document.getElementById('yearMonth');if(sel.querySelector(`option[value="${sm}"]`)){sel.value=sm;}}})();
 const now=new Date();document.getElementById('updateDate').textContent='업데이트 '+now.getFullYear()+'.'+(''+(now.getMonth()+1)).padStart(2,'0')+'.'+(''+now.getDate()).padStart(2,'0');
 renderAll();
 
