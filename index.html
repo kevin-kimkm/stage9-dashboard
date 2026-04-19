@@ -270,6 +270,9 @@
     <div class="grid-full">
       <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--pink)"></span>전년 동월 비교</div></div><div id="yoyTable"></div></div>
     </div>
+    <div class="grid-full">
+      <div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--amber)"></span>전월 비교</div></div><div id="momTable"></div></div>
+    </div>
   </div>
 </div>
 
@@ -555,6 +558,21 @@ function renderCompare(){
     const tp=BRANCHES.reduce((s,b)=>s+prev[b],0),tc=BRANCHES.reduce((s,b)=>s+d[b].total,0),td=(tc-tp)/tp*100;
     yh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp)}</td><td class="num">${f(tc)}</td><td class="num">${cv(td)}</td><td class="num" style="color:${tc-tp>=0?'var(--green)':'var(--red)'}">${tc-tp>=0?'+':''}${f(tc-tp)}</td></tr></tbody></table>`;
     document.getElementById('yoyTable').innerHTML=yh;
+  }
+
+  // 전월 비교
+  const mi=MONTH_KEYS.indexOf(document.getElementById('yearMonth').value);
+  if(mi>0){
+    const prevM=MONTH_KEYS[mi-1], curM=document.getElementById('yearMonth').value;
+    const pd=MD[prevM], cd=MD[curM];
+    const prevLabel=prevM.slice(5).replace(/^0/,'')+'월', curLabel=curM.slice(5).replace(/^0/,'')+'월';
+    let mh=`<table class="data-table"><thead><tr><th>지점</th><th class="num">${prevLabel}</th><th class="num">${curLabel}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
+    BRANCHES.forEach(b=>{const df=(cd[b].total-pd[b].total)/pd[b].total*100,da=cd[b].total-pd[b].total;mh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(pd[b].total)}</td><td class="num">${f(cd[b].total)}</td><td class="num">${cv(df)}</td><td class="num" style="color:${da>=0?'var(--green)':'var(--red)'}">${da>=0?'+':''}${f(da)}</td></tr>`;});
+    const tp2=BRANCHES.reduce((s,b)=>s+pd[b].total,0),tc2=BRANCHES.reduce((s,b)=>s+cd[b].total,0),td2=(tc2-tp2)/tp2*100;
+    mh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp2)}</td><td class="num">${f(tc2)}</td><td class="num">${cv(td2)}</td><td class="num" style="color:${tc2-tp2>=0?'var(--green)':'var(--red)'}">${tc2-tp2>=0?'+':''}${f(tc2-tp2)}</td></tr></tbody></table>`;
+    document.getElementById('momTable').innerHTML=mh;
+  } else {
+    document.getElementById('momTable').innerHTML='<div style="color:var(--text-tertiary);font-size:13px;padding:12px">비교할 전월 데이터가 없습니다.</div>';
   }
 }
 
