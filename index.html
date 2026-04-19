@@ -360,7 +360,7 @@ function renderOverview(){
     <div class="metric-card"><div class="metric-label">오피스 평균 점유율</div><div class="metric-value" style="color:var(--green)">${aOcc}<span class="metric-unit">%</span></div><div class="metric-sub">4개 지점 평균</div></div>
     <div class="metric-card"><div class="metric-label">평균 객단가</div><div class="metric-value">${(aUp/1e4).toFixed(1)}<span class="metric-unit">만원</span></div><div class="metric-sub">${f(aUp)}원</div></div>`;
 
-  const sorted=[...BRANCHES].sort((a,b)=>d[b].ar-d[a].ar);
+  const sorted=BRANCHES;
   document.getElementById('branchBars').innerHTML=sorted.map(b=>`
     <div class="branch-item"><div class="branch-label">${BN[b]}</div><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:${Math.min(d[b].ar,100)}%;background:${BC[b]}"></div></div><div class="bar-meta"><span>목표 ${manW(TGT[b].total)}만</span><span>실적 ${manW(d[b].total)}만</span></div></div><div class="branch-pct" style="color:${BC[b]}">${d[b].ar.toFixed(1)}%</div></div>`).join('');
 
@@ -585,15 +585,24 @@ Chart.defaults.font.size=12;
 
 function renderAll(){renderOverview();renderDetail();renderCompare();}
 
-document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{
+function switchTab(tabId){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');
-});});
+  const btn=document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  if(btn)btn.classList.add('active');
+  document.getElementById(tabId)?.classList.add('active');
+  location.hash=tabId;
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>switchTab(btn.dataset.tab));});
 
 document.getElementById('yearMonth').addEventListener('change',renderAll);
 const now=new Date();document.getElementById('updateDate').textContent='업데이트 '+now.getFullYear()+'.'+(''+(now.getMonth()+1)).padStart(2,'0')+'.'+(''+now.getDate()).padStart(2,'0');
 renderAll();
+
+// 새로고침 시 현재 탭 유지
+const savedTab=location.hash.replace('#','');
+if(savedTab&&document.getElementById(savedTab))switchTab(savedTab);
 </script>
 </body>
 </html>
