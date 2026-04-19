@@ -282,10 +282,10 @@ const BN = { samsung:'삼성점', centroad:'센트로드점', posco:'포스코�
 const BC = { samsung:'#FF5A00', centroad:'#00A699', posco:'#FC642D', hanam:'#914669' };
 
 const TGT = {
-  samsung:{total:246163411,office:181313983,virtual:60545400,dive:4304028,rental:0},
-  centroad:{total:67457449,office:36864942,virtual:26037258,dive:4555249,rental:0},
-  posco:{total:157562558,office:122544958,virtual:28629400,dive:6388200,rental:0},
-  hanam:{total:47070002,office:32264908,virtual:10461803,dive:4343291,rental:0}
+  samsung:{total:247963411,office:181313983,virtual:60545400,dive:4304028,rental:1800000},
+  centroad:{total:67857449,office:36864942,virtual:26037258,dive:4555249,rental:400000},
+  posco:{total:158762558,office:122544958,virtual:28629400,dive:6388200,rental:1200000},
+  hanam:{total:48070002,office:32264908,virtual:10461803,dive:4343291,rental:1000000}
 };
 
 const MD = {
@@ -426,7 +426,7 @@ function renderBranch(b){
     {name:'오피스',actual:r.office,target:t.office,color:CP.office,hasTarget:true},
     {name:'비상주',actual:r.vt,target:t.virtual,color:CP.virtual,hasTarget:true},
     {name:'다이브나인',actual:r.dv,target:t.dive,color:CP.dive,hasTarget:true},
-    {name:'대관',actual:r.rt,target:0,color:CP.rental,hasTarget:false}
+    {name:'대관',actual:r.rt,target:t.rental,color:CP.rental,hasTarget:true}
   ];
 
   let h=`<div class="metric-grid">
@@ -456,12 +456,13 @@ function renderBranch(b){
   // 대관 월별 빌더
   function buildRentalTable(){
     let tbl=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--pink)"></span>대관 월별</div></div>`;
-    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">매출</th><th class="num">건수</th><th class="num">전월비</th></tr></thead><tbody>`;
+    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">매출</th><th class="num">건수</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
     let prev=null;
     MONTH_KEYS.forEach(m=>{
-      const x=MD[m][b], cur=x.rt;
+      const x=MD[m][b], cur=x.rt, pct=t.rental>0?(cur/t.rental*100):0;
       const mom=prev!==null?((cur-prev)/prev*100):0;
       tbl+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">${f(cur)}</td><td class="num">${x.rc}</td>`;
+      tbl+=`<td class="num"><span style="color:${achColor(pct)};font-weight:600">${pct.toFixed(1)}%</span></td>`;
       tbl+=`<td class="num">${prev!==null?cv(mom):'-'}</td></tr>`;
       prev=cur;
     });
