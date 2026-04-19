@@ -410,11 +410,18 @@ function renderOverview(){
   document.getElementById('funnelOverview').innerHTML=fh;
 }
 
+function getActiveBranch(){
+  const h=location.hash;
+  const m=h.match(/detail-(\w+)/);
+  return m&&BRANCHES.includes(m[1])?m[1]:null;
+}
+
 function renderDetail(){
   const sel=document.getElementById('branchSelector');
-  const ab=sel.querySelector('.active')?.dataset.branch||'samsung';
+  const saved=getActiveBranch();
+  const ab=saved||sel.querySelector('.active')?.dataset.branch||'samsung';
   sel.innerHTML=BRANCHES.map(b=>`<button class="branch-tab ${b===ab?'active':''}" data-branch="${b}">${BN[b]}</button>`).join('');
-  sel.querySelectorAll('.branch-tab').forEach(btn=>{btn.addEventListener('click',()=>{sel.querySelectorAll('.branch-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderBranch(btn.dataset.branch);});});
+  sel.querySelectorAll('.branch-tab').forEach(btn=>{btn.addEventListener('click',()=>{sel.querySelectorAll('.branch-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');location.hash='detail-'+btn.dataset.branch;renderBranch(btn.dataset.branch);});});
   renderBranch(ab);
 }
 
@@ -591,7 +598,7 @@ function switchTab(tabId){
   const btn=document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
   if(btn)btn.classList.add('active');
   document.getElementById(tabId)?.classList.add('active');
-  location.hash=tabId;
+  if(tabId!=='detail')location.hash=tabId;
 }
 
 document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>switchTab(btn.dataset.tab));});
@@ -600,9 +607,10 @@ document.getElementById('yearMonth').addEventListener('change',renderAll);
 const now=new Date();document.getElementById('updateDate').textContent='업데이트 '+now.getFullYear()+'.'+(''+(now.getMonth()+1)).padStart(2,'0')+'.'+(''+now.getDate()).padStart(2,'0');
 renderAll();
 
-// 새로고침 시 현재 탭 유지
-const savedTab=location.hash.replace('#','');
-if(savedTab&&document.getElementById(savedTab))switchTab(savedTab);
+// 새로고침 시 현재 탭 + 지점 유지
+const hash=location.hash.replace('#','');
+if(hash.startsWith('detail')){switchTab('detail');renderDetail();}
+else if(hash&&document.getElementById(hash))switchTab(hash);
 </script>
 </body>
 </html>
