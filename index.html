@@ -570,7 +570,9 @@ function renderCompare(){
     {label:'비상주',data:BRANCHES.map(b=>d[b].vt),backgroundColor:CP.virtual,borderRadius:6,barPercentage:.65},
     {label:'다이브나인',data:BRANCHES.map(b=>d[b].dv),backgroundColor:CP.dive,borderRadius:6,barPercentage:.65},
     {label:'대관',data:BRANCHES.map(b=>d[b].rt),backgroundColor:CP.rental,borderRadius:6,barPercentage:.65}
-  ]},options:cOpts({animations:{x:{duration:0},x1:{duration:0},x2:{duration:0},width:{duration:0},y:{duration:900,easing:'easeOutQuart'},y1:{duration:900,easing:'easeOutQuart'},y2:{duration:900,easing:'easeOutQuart'},height:{duration:900,easing:'easeOutQuart',from:0}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:CP.tick}},y:{stacked:true,min:0,ticks:{callback:v=>f(Math.round(v/1e4))+'만',color:CP.tick},grid:{color:CP.grid}}},plugins:{legend:{position:'top'}}})});
+  ]},options:cOpts({animation:false,scales:{x:{stacked:true,grid:{display:false},ticks:{color:CP.tick}},y:{stacked:true,ticks:{callback:v=>f(Math.round(v/1e4))+'만',color:CP.tick},grid:{color:CP.grid}}},plugins:{legend:{position:'top'}}})});
+  // 바닥→위 grow 애니메이션
+  (function(){const ch=charts['compareBarChart'];if(!ch)return;const orig=[];ch.data.datasets.forEach((ds,di)=>{orig[di]=ds.data.slice();ds.data=ds.data.map(()=>0);});ch.update('none');let start=null;function step(ts){if(!start)start=ts;const t=Math.min((ts-start)/800,1);const ease=t<1?1-Math.pow(1-t,3):1;ch.data.datasets.forEach((ds,di)=>{ds.data=orig[di].map(v=>v*ease);});ch.update('none');if(t<1)requestAnimationFrame(step);}requestAnimationFrame(step);})();
 
   const as=[...BRANCHES].sort((a,b)=>d[b].ar-d[a].ar);
   const ps=[...BRANCHES].sort((a,b)=>d[b].up-d[a].up);
