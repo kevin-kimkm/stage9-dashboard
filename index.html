@@ -203,25 +203,20 @@
     .section-label { font-size:10px; }
     .panel-header { margin-bottom:16px; }
 
-    /* 테이블 가로 스크롤 + 힌트 그라데이션 */
-    .table-scroll {
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      margin:0 -16px;
-      padding:0 16px;
-      background:
-        linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-        linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0,
-        linear-gradient(to right, rgba(0,0,0,.05), rgba(0,0,0,0)),
-        linear-gradient(to left, rgba(0,0,0,.05), rgba(0,0,0,0)) 100% 0;
-      background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
-      background-repeat: no-repeat;
-      background-attachment: local, local, scroll, scroll;
-    }
-    .table-scroll .data-table { min-width:580px; white-space:nowrap; }
-    .table-scroll .product-scroll-inner { min-width:400px; }
+    /* 패널 overflow 허용 */
+    .panel { overflow:visible !important; }
 
-    /* 상품별 목표 달성 - 가로스크롤이므로 원본 크기 유지 */
+    /* 가로 스크롤 컨테이너 */
+    .table-scroll {
+      overflow-x:scroll !important;
+      -webkit-overflow-scrolling:touch;
+      margin-left:-16px;
+      margin-right:-16px;
+      padding-left:16px;
+      padding-right:16px;
+    }
+    .table-scroll .data-table { min-width:560px; white-space:nowrap; }
+    .table-scroll .product-scroll-inner { min-width:380px; white-space:nowrap; }
   }
 
   /* 작은 모바일 */
