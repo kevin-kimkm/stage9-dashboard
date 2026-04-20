@@ -570,7 +570,7 @@ function renderCompare(){
     {label:'비상주',data:BRANCHES.map(b=>d[b].vt),backgroundColor:CP.virtual,borderRadius:6,barPercentage:.65},
     {label:'다이브나인',data:BRANCHES.map(b=>d[b].dv),backgroundColor:CP.dive,borderRadius:6,barPercentage:.65},
     {label:'대관',data:BRANCHES.map(b=>d[b].rt),backgroundColor:CP.rental,borderRadius:6,barPercentage:.65}
-  ]},options:cOpts({animations:{x:{duration:0},y:{from:(ctx)=>{const a=ctx.chart.chartArea;return a?a.bottom:300;},duration:900,easing:'easeOutQuart'}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:CP.tick}},y:{stacked:true,ticks:{callback:v=>f(Math.round(v/1e4))+'만',color:CP.tick},grid:{color:CP.grid}}},plugins:{legend:{position:'top'}}})});
+  ]},options:cOpts({transitions:{active:{animation:{duration:200}}},animations:{x:{duration:0},x1:{duration:0},x2:{duration:0},width:{duration:0},y:{duration:800,easing:'easeOutQuart',from:400},y1:{duration:800,easing:'easeOutQuart',from:400},y2:{duration:800,easing:'easeOutQuart'},height:{duration:800,easing:'easeOutQuart',from:0}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:CP.tick}},y:{stacked:true,ticks:{callback:v=>f(Math.round(v/1e4))+'만',color:CP.tick},grid:{color:CP.grid}}},plugins:{legend:{position:'top'}}})});
 
   const as=[...BRANCHES].sort((a,b)=>d[b].ar-d[a].ar);
   const ps=[...BRANCHES].sort((a,b)=>d[b].up-d[a].up);
