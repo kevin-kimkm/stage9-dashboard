@@ -33,8 +33,8 @@
     --red-soft: rgba(221,91,0,.08);
     --blue: #0075de;
     --blue-soft: rgba(0,117,222,.08);
-    --amber: #dd5b00;
-    --amber-soft: rgba(221,91,0,.08);
+    --amber: #6f42c1;
+    --amber-soft: rgba(111,66,193,.08);
     --pink: #391c57;
     --cyan: #2a9d99;
     --radius-sm: 12px;
@@ -308,7 +308,7 @@
 <script>
 const BRANCHES = ['samsung','centroad','posco','hanam'];
 const BN = { samsung:'삼성점', centroad:'센트로드점', posco:'포스코타워점', hanam:'하남미사점' };
-const BC = { samsung:'#FF5A00', centroad:'#2a9d99', posco:'#dd5b00', hanam:'#391c57' };
+const BC = { samsung:'#FF5A00', centroad:'#2a9d99', posco:'#0075de', hanam:'#6f42c1' };
 
 const TGT = {
   samsung:{total:247963411,office:181313983,virtual:60545400,dive:4304028,rental:1800000},
@@ -372,7 +372,7 @@ function ml(){return document.getElementById('yearMonth').value.replace('2026-',
 
 const CP={grid:'rgba(0,0,0,.06)',tick:'#615d59',ttBg:'rgba(0,0,0,0.95)',ttBd:'rgba(0,0,0,.1)',ttT:'#ffffff',ttB:'rgba(255,255,255,.8)',
   office:'#FF5A00',officeSoft:'rgba(255,90,0,.08)',virtual:'#2a9d99',virtualSoft:'rgba(42,157,153,.08)',
-  dive:'#dd5b00',diveSoft:'rgba(221,91,0,.08)',rental:'#391c57',rentalSoft:'rgba(57,28,87,.08)',brand:'#FF5A00'};
+  dive:'#6f42c1',diveSoft:'rgba(111,66,193,.08)',rental:'#391c57',rentalSoft:'rgba(57,28,87,.08)',brand:'#FF5A00'};
 
 function cOpts(extra){return{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{backgroundColor:CP.ttBg,borderColor:CP.ttBd,borderWidth:1,titleColor:CP.ttT,bodyColor:CP.ttB,padding:12,cornerRadius:12,titleFont:{weight:600},bodyFont:{size:13},callbacks:{label:ctx=>ctx.dataset.label+': '+f(ctx.parsed.y)+'원'}},legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:16,color:'#6a6a6a',font:{size:13,weight:500}}}},...extra};}
 
