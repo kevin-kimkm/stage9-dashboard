@@ -14,38 +14,38 @@
     --bg-base: #ffffff;
     --bg-raised: #ffffff;
     --bg-surface: #ffffff;
-    --bg-overlay: #f7f7f7;
-    --border-subtle: #ebebeb;
-    --border-default: #dddddd;
-    --border-strong: #c1c1c1;
-    --text-primary: #222222;
-    --text-secondary: #6a6a6a;
-    --text-tertiary: #929292;
-    --text-quaternary: #b0b0b0;
+    --bg-overlay: #f6f5f4;
+    --border-subtle: rgba(0,0,0,0.1);
+    --border-default: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text-primary: rgba(0,0,0,0.95);
+    --text-secondary: #615d59;
+    --text-tertiary: #a39e98;
+    --text-quaternary: #a39e98;
     --brand: #FF5A00;
     --brand-soft: rgba(255,90,0,.06);
     --brand-mid: rgba(255,90,0,.12);
     --accent: #FF5A00;
     --accent-soft: rgba(255,90,0,.06);
-    --green: #008A05;
-    --green-soft: rgba(0,138,5,.06);
-    --red: #c13515;
-    --red-soft: rgba(193,53,21,.06);
-    --blue: #428bff;
-    --blue-soft: rgba(66,139,255,.06);
-    --amber: #e07912;
-    --amber-soft: rgba(224,121,18,.06);
-    --pink: #914669;
-    --cyan: #00A699;
+    --green: #2a9d99;
+    --green-soft: rgba(42,157,153,.08);
+    --red: #dd5b00;
+    --red-soft: rgba(221,91,0,.08);
+    --blue: #0075de;
+    --blue-soft: rgba(0,117,222,.08);
+    --amber: #dd5b00;
+    --amber-soft: rgba(221,91,0,.08);
+    --pink: #391c57;
+    --cyan: #2a9d99;
     --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
-    --shadow-card: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.08) 0px 4px 8px;
-    --shadow-hover: rgba(0,0,0,0.04) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 4px 12px, rgba(0,0,0,0.12) 0px 8px 24px;
+    --radius-md: 12px;
+    --radius-lg: 12px;
+    --shadow-card: rgba(0,0,0,0.04) 0px 4px 18px, rgba(0,0,0,0.027) 0px 2px 8px, rgba(0,0,0,0.02) 0px 1px 3px;
+    --shadow-hover: rgba(0,0,0,0.06) 0px 4px 18px, rgba(0,0,0,0.04) 0px 2px 8px, rgba(0,0,0,0.03) 0px 1px 3px;
     --transition: 200ms ease;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Inter',-apple-system,system-ui,'Segoe UI',Roboto,'Helvetica Neue',sans-serif; background:var(--bg-base); color:var(--text-primary); min-height:100vh; -webkit-font-smoothing:antialiased; line-height:1.43; }
+  body { font-family:'Inter',-apple-system,system-ui,'Segoe UI',Roboto,'Helvetica Neue',sans-serif; background:var(--bg-base); color:var(--text-primary); min-height:100vh; -webkit-font-smoothing:antialiased; line-height:1.50; }
 
   /* HEADER */
   .header { padding:0 32px; height:64px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border-subtle); background:#ffffff; position:sticky; top:0; z-index:100; }
@@ -61,10 +61,10 @@
 
   /* TABS */
   .tab-nav { display:flex; gap:4px; padding:0 32px; background:#ffffff; border-bottom:1px solid var(--border-subtle); }
-  .tab-btn { padding:16px 4px; border:none; background:transparent; color:var(--text-tertiary); font-size:14px; font-weight:500; font-family:inherit; cursor:pointer; transition:color var(--transition); position:relative; margin-bottom:-1px; margin-right:20px; }
-  .tab-btn:hover { color:var(--text-primary); }
-  .tab-btn.active { color:var(--text-primary); font-weight:600; }
-  .tab-btn.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--text-primary); border-radius:2px 2px 0 0; }
+  .tab-btn { padding:16px 4px; border:none; background:transparent; color:#615d59; font-size:14px; font-weight:500; font-family:inherit; cursor:pointer; transition:color var(--transition); position:relative; margin-bottom:-1px; margin-right:20px; }
+  .tab-btn:hover { color:rgba(0,0,0,0.95); }
+  .tab-btn.active { color:rgba(0,0,0,0.95); font-weight:600; }
+  .tab-btn.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:#FF5A00; border-radius:2px 2px 0 0; }
 
   /* MAIN */
   .main { padding:28px 32px 48px; max-width:1440px; margin:0 auto; }
@@ -74,24 +74,24 @@
 
   /* CARDS */
   .metric-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
-  .metric-card { background:#ffffff; border:none; border-radius:var(--radius-sm); padding:24px; transition:transform var(--transition),box-shadow var(--transition); box-shadow:var(--shadow-card); }
+  .metric-card { background:#ffffff; border:1px solid rgba(0,0,0,0.1); border-radius:var(--radius-sm); padding:24px; transition:transform var(--transition),box-shadow var(--transition); box-shadow:var(--shadow-card); }
   .metric-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
   .metric-label { font-size:13px; font-weight:500; color:var(--text-secondary); margin-bottom:12px; }
   .metric-value { font-size:32px; font-weight:700; letter-spacing:-0.5px; line-height:1.18; margin-bottom:8px; font-variant-numeric:tabular-nums; }
   .metric-unit { font-size:16px; font-weight:500; color:var(--text-tertiary); margin-left:2px; }
   .metric-sub { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-secondary); }
-  .pill { display:inline-flex; align-items:center; gap:3px; padding:3px 10px; border-radius:20px; font-size:12px; font-weight:600; }
-  .pill-up { background:rgba(0,138,5,.06); color:#008A05; }
-  .pill-down { background:rgba(193,53,21,.06); color:#c13515; }
-  .pill-neutral { background:rgba(66,139,255,.06); color:#428bff; }
+  .pill { display:inline-flex; align-items:center; gap:3px; padding:3px 10px; border-radius:9999px; font-size:12px; font-weight:600; }
+  .pill-up { background:rgba(42,157,153,0.08); color:#2a9d99; }
+  .pill-down { background:rgba(221,91,0,0.08); color:#dd5b00; }
+  .pill-neutral { background:rgba(0,117,222,0.08); color:#0075de; }
 
   /* PANELS */
   .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
   .grid-full { margin-bottom:16px; }
-  .panel { background:#ffffff; border:none; border-radius:var(--radius-sm); padding:24px; transition:transform var(--transition),box-shadow var(--transition); box-shadow:var(--shadow-card); }
+  .panel { background:#ffffff; border:1px solid rgba(0,0,0,0.1); border-radius:var(--radius-sm); padding:24px; transition:transform var(--transition),box-shadow var(--transition); box-shadow:var(--shadow-card); }
   .panel:hover { box-shadow:var(--shadow-hover); }
   .panel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-  .panel-title { font-size:16px; font-weight:600; color:var(--text-primary); display:flex; align-items:center; gap:8px; letter-spacing:-0.2px; }
+  .panel-title { font-size:16px; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:8px; letter-spacing:-0.25px; }
   .panel-dot { width:6px; height:6px; border-radius:50%; }
 
   /* BRANCH BARS */
@@ -99,7 +99,7 @@
   .branch-item + .branch-item { border-top:1px solid var(--border-subtle); }
   .branch-label { width:88px; font-size:14px; font-weight:600; flex-shrink:0; }
   .bar-wrap { flex:1; }
-  .bar-track { width:100%; height:8px; background:#f2f2f2; border-radius:4px; overflow:hidden; }
+  .bar-track { width:100%; height:8px; background:#f6f5f4; border-radius:4px; overflow:hidden; }
   .bar-fill { height:100%; border-radius:4px; transition:width .8s cubic-bezier(.4,0,.2,1); }
   .bar-meta { display:flex; justify-content:space-between; font-size:12px; color:var(--text-tertiary); margin-top:6px; }
   .branch-pct { width:64px; text-align:right; font-size:15px; font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
@@ -110,7 +110,7 @@
   .data-table td { padding:14px 16px; border-bottom:1px solid var(--border-subtle); color:var(--text-primary); }
   .data-table tbody tr:last-child td { border-bottom:none; }
   .data-table tbody tr { transition:background var(--transition); }
-  .data-table tbody tr:hover td { background:#f7f7f7; }
+  .data-table tbody tr:hover td { background:#f6f5f4; }
   .data-table .num { text-align:right; }
   .data-table .row-total td { background:rgba(255,90,0,.04); color:var(--text-primary); font-weight:600; border-bottom:none; }
 
@@ -124,16 +124,16 @@
   .rank-row + .rank-row { border-top:1px solid var(--border-subtle); }
   .rank-badge { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
   .rb-1 { background:#FF5A00; color:#fff; }
-  .rb-2 { background:#222222; color:#fff; }
-  .rb-3 { background:#6a6a6a; color:#fff; }
-  .rb-4 { background:#f2f2f2; color:var(--text-secondary); }
+  .rb-2 { background:#31302e; color:#fff; }
+  .rb-3 { background:#615d59; color:#fff; }
+  .rb-4 { background:#f6f5f4; color:var(--text-secondary); border:1px solid rgba(0,0,0,0.1); }
   .rank-info { flex:1; }
   .rank-name { font-size:14px; font-weight:600; }
   .rank-sub { font-size:12px; color:var(--text-tertiary); margin-top:2px; }
   .rank-val { font-size:17px; font-weight:700; font-variant-numeric:tabular-nums; }
 
   /* BRANCH TABS */
-  .branch-tabs { display:flex; gap:4px; margin-bottom:24px; background:#f7f7f7; padding:4px; border-radius:10px; width:fit-content; }
+  .branch-tabs { display:flex; gap:4px; margin-bottom:24px; background:#f6f5f4; padding:4px; border-radius:10px; width:fit-content; }
   .branch-tab { padding:8px 18px; background:transparent; border:none; color:var(--text-secondary); border-radius:8px; cursor:pointer; font-size:14px; font-weight:500; font-family:inherit; transition:all var(--transition); }
   .branch-tab:hover { color:var(--text-primary); background:rgba(0,0,0,.04); }
   .branch-tab.active { background:#ffffff; color:var(--text-primary); font-weight:600; box-shadow:var(--shadow-card); }
@@ -163,49 +163,68 @@
     .header-title { display:none; }
     .header-divider { display:none; }
     .header-right { gap:8px; }
-    .month-select { font-size:13px; padding:6px 30px 6px 10px; }
+    .month-select { font-size:12px; padding:6px 30px 6px 10px; }
     .update-badge { display:none; }
     .tab-nav { padding:0 12px; gap:0; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-    .tab-btn { font-size:13px; padding:14px 2px; margin-right:16px; white-space:nowrap; }
-    .metric-card { padding:16px; }
-    .metric-value { font-size:24px; }
-    .metric-unit { font-size:13px; }
-    .metric-label { font-size:12px; margin-bottom:8px; }
-    .metric-sub { font-size:11px; }
+    .tab-btn { font-size:12px; padding:14px 2px; margin-right:16px; white-space:nowrap; }
+    .metric-card { padding:14px; }
+    .metric-value { font-size:23px; }
+    .metric-unit { font-size:12px; }
+    .metric-label { font-size:11px; margin-bottom:8px; }
+    .metric-sub { font-size:10px; }
     .panel { padding:16px; border-radius:10px; }
-    .panel-title { font-size:14px; }
+    .panel-title { font-size:13px; }
     .branch-tabs { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-    .branch-tab { flex:1; text-align:center; font-size:13px; padding:8px 10px; white-space:nowrap; }
-    .branch-label { width:72px; font-size:12px; }
-    .branch-pct { font-size:13px; }
+    .branch-tab { flex:1; text-align:center; font-size:12px; padding:8px 10px; white-space:nowrap; }
+    .branch-label { width:56px; font-size:11px; }
+    .branch-pct { font-size:12px; }
     .bar-meta { font-size:10px; }
-    .data-table { font-size:12px; }
-    .data-table th { padding:8px 8px; font-size:10px; }
+    .data-table { font-size:11px; }
+    .data-table th { padding:8px 8px; font-size:9px; }
     .data-table td { padding:10px 8px; }
-    .rank-name { font-size:13px; }
-    .rank-val { font-size:15px; }
-    .chart-wrap,.chart-wrap-lg { height:240px; }
+    .rank-name { font-size:12px; }
+    .rank-val { font-size:14px; }
+    .rank-badge { width:24px; height:24px; font-size:11px; }
+    .rank-row { gap:10px; padding:12px 0; }
+    .chart-wrap,.chart-wrap-lg { height:200px; }
+    .chart-wrap-sm { height:180px; }
     .grid-2 { gap:12px; }
     .grid-full { margin-bottom:12px; }
-    .funnel-val { font-size:22px; }
-    .funnel-label { font-size:12px; }
-    .section-label { font-size:11px; }
+    .funnel-val { font-size:21px; }
+    .funnel-label { font-size:11px; }
+    .section-label { font-size:10px; }
+    .panel-header { margin-bottom:16px; }
+
+    /* 테이블 가로 스크롤 + 힌트 그라데이션 */
+    .table-scroll {
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      margin:0 -16px;
+      padding:0 16px;
+      background:
+        linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+        linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0,
+        linear-gradient(to right, rgba(0,0,0,.05), rgba(0,0,0,0)),
+        linear-gradient(to left, rgba(0,0,0,.05), rgba(0,0,0,0)) 100% 0;
+      background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+      background-repeat: no-repeat;
+      background-attachment: local, local, scroll, scroll;
+    }
+    .table-scroll .data-table { min-width:580px; white-space:nowrap; }
+
+    /* 상품별 목표 달성 프로그레스 바 label 축소 */
+    .product-label-col { width:56px !important; font-size:12px !important; }
   }
 
   /* 작은 모바일 */
   @media (max-width:380px) {
     .metric-grid { grid-template-columns:1fr; }
-    .metric-value { font-size:28px; }
+    .metric-value { font-size:26px; }
     .header { gap:8px; }
-    .month-select { font-size:12px; padding:5px 26px 5px 8px; }
-    .tab-btn { font-size:12px; margin-right:12px; }
+    .month-select { font-size:11px; padding:5px 26px 5px 8px; }
+    .tab-btn { font-size:11px; margin-right:12px; }
     .branch-tabs { flex-wrap:nowrap; }
-    .branch-tab { font-size:12px; padding:7px 8px; }
-  }
-
-  /* 테이블 가로 스크롤 (모바일) */
-  @media (max-width:768px) {
-    .data-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+    .branch-tab { font-size:11px; padding:7px 8px; }
   }
 </style>
 </head>
@@ -279,7 +298,7 @@
 <script>
 const BRANCHES = ['samsung','centroad','posco','hanam'];
 const BN = { samsung:'삼성점', centroad:'센트로드점', posco:'포스코타워점', hanam:'하남미사점' };
-const BC = { samsung:'#FF5A00', centroad:'#00A699', posco:'#FC642D', hanam:'#914669' };
+const BC = { samsung:'#FF5A00', centroad:'#2a9d99', posco:'#dd5b00', hanam:'#391c57' };
 
 const TGT = {
   samsung:{total:247963411,office:181313983,virtual:60545400,dive:4304028,rental:1800000},
@@ -341,9 +360,9 @@ function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 function gd(){return MD[document.getElementById('yearMonth').value];}
 function ml(){return document.getElementById('yearMonth').value.replace('2026-','').replace(/^0/,'')+'월';}
 
-const CP={grid:'rgba(0,0,0,.06)',tick:'#6a6a6a',ttBg:'#222222',ttBd:'rgba(0,0,0,.1)',ttT:'#ffffff',ttB:'rgba(255,255,255,.8)',
-  office:'#FF5A00',officeSoft:'rgba(255,90,0,.08)',virtual:'#00A699',virtualSoft:'rgba(0,166,153,.08)',
-  dive:'#FC642D',diveSoft:'rgba(252,100,45,.08)',rental:'#914669',rentalSoft:'rgba(145,70,105,.08)',brand:'#FF5A00'};
+const CP={grid:'rgba(0,0,0,.06)',tick:'#615d59',ttBg:'rgba(0,0,0,0.95)',ttBd:'rgba(0,0,0,.1)',ttT:'#ffffff',ttB:'rgba(255,255,255,.8)',
+  office:'#FF5A00',officeSoft:'rgba(255,90,0,.08)',virtual:'#2a9d99',virtualSoft:'rgba(42,157,153,.08)',
+  dive:'#dd5b00',diveSoft:'rgba(221,91,0,.08)',rental:'#391c57',rentalSoft:'rgba(57,28,87,.08)',brand:'#FF5A00'};
 
 function cOpts(extra){return{responsive:true,maintainAspectRatio:false,plugins:{tooltip:{backgroundColor:CP.ttBg,borderColor:CP.ttBd,borderWidth:1,titleColor:CP.ttT,bodyColor:CP.ttB,padding:12,cornerRadius:12,titleFont:{weight:600},bodyFont:{size:13},callbacks:{label:ctx=>ctx.dataset.label+': '+f(ctx.parsed.y)+'원'}},legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:16,color:'#6a6a6a',font:{size:13,weight:500}}}},...extra};}
 
@@ -370,9 +389,9 @@ function renderOverview(){
   charts['productPieChart']=new Chart(document.getElementById('productPieChart'),{type:'doughnut',data:{labels:[`오피스 ${pcts[0]}%`,`비상주 ${pcts[1]}%`,`다이브나인 ${pcts[2]}%`,`대관 ${pcts[3]}%`],datasets:[{data:[tOff,tVir,tDiv,tRen],backgroundColor:[CP.office,CP.virtual,CP.dive,CP.rental],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{usePointStyle:true,pointStyle:'circle',padding:14,color:'#87867f',font:{size:12,weight:500}}},tooltip:{backgroundColor:CP.ttBg,borderColor:CP.ttBd,borderWidth:1,titleColor:CP.ttT,bodyColor:CP.ttB,padding:12,cornerRadius:8,callbacks:{label:ctx=>ctx.label+': '+f(ctx.raw)+'원'}}}}});
 
   // Detail table
-  let th=`<table class="data-table"><thead><tr><th>지점</th><th class="num">오피스</th><th class="num">점유율</th><th class="num">객단가</th><th class="num">비상주</th><th class="num">다이브나인</th><th class="num">대관</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
+  let th=`<div class="table-scroll"><table class="data-table"><thead><tr><th>지점</th><th class="num">오피스</th><th class="num">점유율</th><th class="num">객단가</th><th class="num">비상주</th><th class="num">다이브나인</th><th class="num">대관</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
   BRANCHES.forEach(b=>{const r=d[b];th+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(r.office)}</td><td class="num">${r.occ}%</td><td class="num">${f(r.up)}</td><td class="num">${f(r.vt)}</td><td class="num">${f(r.dv)}</td><td class="num">${f(r.rt)}</td><td class="num"><strong>${f(r.total)}</strong></td><td class="num"><span style="color:${achColor(r.ar)};font-weight:600">${r.ar.toFixed(1)}%</span></td><td class="num">${cv(r.mom)}</td></tr>`;});
-  th+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tOff)}</td><td class="num">${aOcc}%</td><td class="num">${f(aUp)}</td><td class="num">${f(tVir)}</td><td class="num">${f(tDiv)}</td><td class="num">${f(tRen)}</td><td class="num">${f(tRev)}</td><td class="num"><span style="color:${achColor(ar)};font-weight:600">${ar}%</span></td><td class="num">${cv(aMom)}</td></tr></tbody></table>`;
+  th+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tOff)}</td><td class="num">${aOcc}%</td><td class="num">${f(aUp)}</td><td class="num">${f(tVir)}</td><td class="num">${f(tDiv)}</td><td class="num">${f(tRen)}</td><td class="num">${f(tRev)}</td><td class="num"><span style="color:${achColor(ar)};font-weight:600">${ar}%</span></td><td class="num">${cv(aMom)}</td></tr></tbody></table></div>`;
   document.getElementById('detailTable').innerHTML=th;
 
   // Trend chart 1: 오피스 & 비상주
@@ -391,7 +410,7 @@ function renderOverview(){
 
   // 영업 퍼널 현황
   let fh=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--cyan)"></span>영업 퍼널 현황 (오피스)</div></div>`;
-  fh+=`<table class="data-table"><thead><tr><th>지점</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
+  fh+=`<div class="table-scroll"><table class="data-table"><thead><tr><th>지점</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
   let sumLead=0,sumTour=0,sumContract=0;
   BRANCHES.forEach(b=>{
     const r=d[b];
@@ -406,7 +425,7 @@ function renderOverview(){
   });
   const sTourRate=sumLead>0?(sumTour/sumLead*100):0,sLeadContract=sumLead>0?(sumContract/sumLead*100):0,sTourContract=sumTour>0?(sumContract/sumTour*100):0;
   fh+=`<tr class="row-total"><td>전 지점</td><td class="num">${sumLead}</td><td class="num">${sumTour}</td><td class="num"><span style="color:${funnelColor(sTourRate,'tourRate')};font-weight:600">${sTourRate.toFixed(1)}%</span></td><td class="num">${sumContract}</td><td class="num"><span style="color:${funnelColor(sLeadContract,'leadContract')};font-weight:600">${sLeadContract.toFixed(1)}%</span></td><td class="num"><span style="color:${funnelColor(sTourContract,'tourContract')};font-weight:600">${sTourContract.toFixed(1)}%</span></td></tr>`;
-  fh+=`</tbody></table></div>`;
+  fh+=`</tbody></table></div></div>`;
   document.getElementById('funnelOverview').innerHTML=fh;
 }
 
@@ -440,7 +459,7 @@ function renderBranch(b){
   // 월별 테이블 빌더 (신규/재계약)
   function buildTable(title,dotColor,fTotal,fNew,fRenew,targetVal){
     let tbl=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:${dotColor}"></span>${title}</div></div>`;
-    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">신규</th><th class="num">재계약</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
+    tbl+=`<div class="table-scroll"><table class="data-table"><thead><tr><th>월</th><th class="num">신규</th><th class="num">재계약</th><th class="num">합계</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
     let prev=null;
     MONTH_KEYS.forEach(m=>{
       const x=MD[m][b], cur=x[fTotal], pct=targetVal>0?(cur/targetVal*100):0;
@@ -450,14 +469,14 @@ function renderBranch(b){
       tbl+=`<td class="num">${prev!==null?cv(mom):'-'}</td></tr>`;
       prev=cur;
     });
-    tbl+=`</tbody></table></div>`;
+    tbl+=`</tbody></table></div></div>`;
     return tbl;
   }
 
   // 대관 월별 빌더
   function buildRentalTable(){
     let tbl=`<div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--pink)"></span>대관 월별</div></div>`;
-    tbl+=`<table class="data-table"><thead><tr><th>월</th><th class="num">매출</th><th class="num">건수</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
+    tbl+=`<div class="table-scroll"><table class="data-table"><thead><tr><th>월</th><th class="num">매출</th><th class="num">건수</th><th class="num">달성률</th><th class="num">전월비</th></tr></thead><tbody>`;
     let prev=null;
     MONTH_KEYS.forEach(m=>{
       const x=MD[m][b], cur=x.rt, pct=t.rental>0?(cur/t.rental*100):0;
@@ -467,7 +486,7 @@ function renderBranch(b){
       tbl+=`<td class="num">${prev!==null?cv(mom):'-'}</td></tr>`;
       prev=cur;
     });
-    tbl+=`</tbody></table></div>`;
+    tbl+=`</tbody></table></div></div>`;
     return tbl;
   }
 
@@ -480,7 +499,7 @@ function renderBranch(b){
       const pct=p.target>0?(p.actual/p.target*100):0;
       const gap=p.actual-p.target;
       h+=`<div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--border-subtle)">
-        <div style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
+        <div class="product-label-col" style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
             <span style="font-size:18px;font-weight:700;color:${achColor(pct)}">${pct.toFixed(1)}%</span>
@@ -495,7 +514,7 @@ function renderBranch(b){
       </div>`;
     } else {
       h+=`<div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--border-subtle)">
-        <div style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
+        <div class="product-label-col" style="width:72px;font-size:13px;font-weight:600;flex-shrink:0">${p.name}</div>
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="font-size:18px;font-weight:700;color:var(--text-primary)">${manW(p.actual)}<span style="font-size:13px;color:var(--text-tertiary);font-weight:500">만원</span></span>
@@ -517,7 +536,7 @@ function renderBranch(b){
 
   // 영업 퍼널 (오피스)
   h+=`<div class="grid-full"><div class="panel"><div class="panel-header"><div class="panel-title"><span class="panel-dot" style="background:var(--cyan)"></span>영업 퍼널 (오피스)</div></div>`;
-  h+=`<table class="data-table"><thead><tr><th>월</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
+  h+=`<div class="table-scroll"><table class="data-table"><thead><tr><th>월</th><th class="num">리드 수</th><th class="num">투어 수</th><th class="num">투어율</th><th class="num">계약 수</th><th class="num">리드→계약</th><th class="num">투어→계약</th></tr></thead><tbody>`;
   MONTH_KEYS.forEach(m=>{
     const x=MD[m][b];
     if(x.lead===0){
@@ -527,7 +546,7 @@ function renderBranch(b){
       h+=`<tr><td>${m.slice(5).replace(/^0/,'')}월</td><td class="num">${x.lead}</td><td class="num">${x.tour}</td><td class="num"><span style="color:${funnelColor(tourRate,'tourRate')};font-weight:600">${tourRate.toFixed(1)}%</span></td><td class="num">${x.contract}</td><td class="num"><span style="color:${funnelColor(leadContract,'leadContract')};font-weight:600">${leadContract.toFixed(1)}%</span></td><td class="num"><span style="color:${funnelColor(tourContract,'tourContract')};font-weight:600">${tourContract.toFixed(1)}%</span></td></tr>`;
     }
   });
-  h+=`</tbody></table></div></div>`;
+  h+=`</tbody></table></div></div></div>`;
 
   el.innerHTML=h;
 }
@@ -555,10 +574,10 @@ function renderCompare(){
 
   if(YOY[mm]){
     const prev=YOY[mm];
-    let yh=`<table class="data-table"><thead><tr><th>지점</th><th class="num">2025 ${label}</th><th class="num">2026 ${label}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
+    let yh=`<div class="table-scroll"><table class="data-table"><thead><tr><th>지점</th><th class="num">2025 ${label}</th><th class="num">2026 ${label}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
     BRANCHES.forEach(b=>{const df=(d[b].total-prev[b])/prev[b]*100,da=d[b].total-prev[b];yh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(prev[b])}</td><td class="num">${f(d[b].total)}</td><td class="num">${cv(df)}</td><td class="num" style="color:${da>=0?'var(--green)':'var(--red)'}">${da>=0?'+':''}${f(da)}</td></tr>`;});
     const tp=BRANCHES.reduce((s,b)=>s+prev[b],0),tc=BRANCHES.reduce((s,b)=>s+d[b].total,0),td=(tc-tp)/tp*100;
-    yh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp)}</td><td class="num">${f(tc)}</td><td class="num">${cv(td)}</td><td class="num" style="color:${tc-tp>=0?'var(--green)':'var(--red)'}">${tc-tp>=0?'+':''}${f(tc-tp)}</td></tr></tbody></table>`;
+    yh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp)}</td><td class="num">${f(tc)}</td><td class="num">${cv(td)}</td><td class="num" style="color:${tc-tp>=0?'var(--green)':'var(--red)'}">${tc-tp>=0?'+':''}${f(tc-tp)}</td></tr></tbody></table></div>`;
     document.getElementById('yoyTable').innerHTML=yh;
   }
 
@@ -568,10 +587,10 @@ function renderCompare(){
     const prevM=MONTH_KEYS[mi-1], curM=document.getElementById('yearMonth').value;
     const pd=MD[prevM], cd=MD[curM];
     const prevLabel=prevM.slice(5).replace(/^0/,'')+'월', curLabel=curM.slice(5).replace(/^0/,'')+'월';
-    let mh=`<table class="data-table"><thead><tr><th>지점</th><th class="num">${prevLabel}</th><th class="num">${curLabel}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
+    let mh=`<div class="table-scroll"><table class="data-table"><thead><tr><th>지점</th><th class="num">${prevLabel}</th><th class="num">${curLabel}</th><th class="num">증감률</th><th class="num">증감액</th></tr></thead><tbody>`;
     BRANCHES.forEach(b=>{const df=(cd[b].total-pd[b].total)/pd[b].total*100,da=cd[b].total-pd[b].total;mh+=`<tr><td><strong>${BN[b]}</strong></td><td class="num">${f(pd[b].total)}</td><td class="num">${f(cd[b].total)}</td><td class="num">${cv(df)}</td><td class="num" style="color:${da>=0?'var(--green)':'var(--red)'}">${da>=0?'+':''}${f(da)}</td></tr>`;});
     const tp2=BRANCHES.reduce((s,b)=>s+pd[b].total,0),tc2=BRANCHES.reduce((s,b)=>s+cd[b].total,0),td2=(tc2-tp2)/tp2*100;
-    mh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp2)}</td><td class="num">${f(tc2)}</td><td class="num">${cv(td2)}</td><td class="num" style="color:${tc2-tp2>=0?'var(--green)':'var(--red)'}">${tc2-tp2>=0?'+':''}${f(tc2-tp2)}</td></tr></tbody></table>`;
+    mh+=`<tr class="row-total"><td>전 지점</td><td class="num">${f(tp2)}</td><td class="num">${f(tc2)}</td><td class="num">${cv(td2)}</td><td class="num" style="color:${tc2-tp2>=0?'var(--green)':'var(--red)'}">${tc2-tp2>=0?'+':''}${f(tc2-tp2)}</td></tr></tbody></table></div>`;
     document.getElementById('momTable').innerHTML=mh;
   } else {
     document.getElementById('momTable').innerHTML='<div style="color:var(--text-tertiary);font-size:13px;padding:12px">비교할 전월 데이터가 없습니다.</div>';
@@ -579,7 +598,7 @@ function renderCompare(){
 }
 
 // ====== INIT ======
-Chart.defaults.color='#6a6a6a';
+Chart.defaults.color='#615d59';
 Chart.defaults.borderColor='rgba(0,0,0,.06)';
 Chart.defaults.font.family="'Inter',-apple-system,BlinkMacSystemFont,sans-serif";
 Chart.defaults.font.size=12;
